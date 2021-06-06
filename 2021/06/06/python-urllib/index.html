@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="urllib模块之python 3">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/06/06/python-urllib/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-06T09:26:52.477Z">
+<meta property="article:modified_time" content="2021-06-06T09:26:52.477Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="urllib">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>urllib模块之python 3</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/06/06/python%E6%8A%80%E5%B7%A7-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/06/06/python-urllib/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&text=urllib模块之python 3"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&is_video=false&description=urllib模块之python 3"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=urllib模块之python 3&body=Check out this article: https://www.buhuixiu.com/2021/06/06/python-urllib/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&name=urllib模块之python 3&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;p&gt;&lt;a href=&#34;/developer/doc/1198&#34;&gt;Python&lt;/a&gt;&lt;a href=&#34;/developer/chapter/16176&#34;&gt;网络 | Internet&lt;/a&gt;urllib&lt;/p&gt;
+&lt;h1 id=&#34;urllib&#34;&gt;&lt;a href=&#34;#urllib&#34; class=&#34;headerlink&#34; title=&#34;urllib&#34;&gt;&lt;/a&gt;urllib&lt;/h1&gt;&lt;p&gt;注意&lt;/p&gt;
+&lt;p&gt;该&lt;code&gt;urllib&lt;/code&gt;模块已经被分成部分和在Python 3重命名为&lt;code&gt;urllib.request&lt;/code&gt;，&lt;code&gt;urllib.parse&lt;/code&gt;，和&lt;code&gt;urllib.error&lt;/code&gt;。该&lt;a href=&#34;https://docs.python.org/2.7/glossary.html#term-2to3&#34;&gt;2to3的&lt;/a&gt;转换你的源代码时，Python 3的另外请注意，该工具会自动适应进口&lt;code&gt;urllib.request.urlopen()&lt;/code&gt;在Python 3功能相当于&lt;code&gt;urllib2.urlopen()&lt;/code&gt;并且&lt;code&gt;urllib.urlopen()&lt;/code&gt;已被删除。&lt;/p&gt;
+&lt;p&gt;该模块提供了一个高级接口，用于通过万维网获取数据。特别是，该&lt;code&gt;urlopen()&lt;/code&gt;函数与内置函数类似&lt;code&gt;open()&lt;/code&gt;，但接受通用资源定位符（URL）而不是文件名。有些限制适用 - 它只能打开URL进行阅读，并且没有可用的查找操作。&lt;/p&gt;
+&lt;p&gt;在版本2.7.9中进行了更改：对于HTTPS URI，&lt;code&gt;urllib&lt;/code&gt;默认情况下执行所有必需的证书和主机名检查。&lt;/p&gt;
+&lt;p&gt;警告&lt;/p&gt;
+&lt;p&gt;对于早于2.7.9的Python版本，urllib不会尝试验证HTTPS URI的服务器证书。使用需要您自担风险！&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/06/06/python-urllib/&t=urllib模块之python 3"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#urllib"><span class="toc-number">1.</span> <span class="toc-text">urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%AB%98%E7%BA%A7%E7%95%8C%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">1.高级界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9E%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.</span> <span class="toc-text">2.实用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-URL%E5%BC%80%E5%90%AF%E5%99%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.</span> <span class="toc-text">3. URL开启器对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-urllib%E9%99%90%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. urllib限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BE%8B%E5%AD%90"><span class="toc-number">1.5.</span> <span class="toc-text">5.例子</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        urllib模块之python 3
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-06T09:26:52.477Z" itemprop="datePublished">2021-06-06</time>
+        
+        (Updated: <time datetime="2021-06-06T09:26:52.477Z" itemprop="dateModified">2021-06-06</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/urllib/" rel="tag">urllib</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<p><a href="/developer/doc/1198">Python</a><a href="/developer/chapter/16176">网络 | Internet</a>urllib</p>
+<h1 id="urllib"><a href="#urllib" class="headerlink" title="urllib"></a>urllib</h1><p>注意</p>
+<p>该<code>urllib</code>模块已经被分成部分和在Python 3重命名为<code>urllib.request</code>，<code>urllib.parse</code>，和<code>urllib.error</code>。该<a target="_blank" rel="noopener" href="https://docs.python.org/2.7/glossary.html#term-2to3">2to3的</a>转换你的源代码时，Python 3的另外请注意，该工具会自动适应进口<code>urllib.request.urlopen()</code>在Python 3功能相当于<code>urllib2.urlopen()</code>并且<code>urllib.urlopen()</code>已被删除。</p>
+<p>该模块提供了一个高级接口，用于通过万维网获取数据。特别是，该<code>urlopen()</code>函数与内置函数类似<code>open()</code>，但接受通用资源定位符（URL）而不是文件名。有些限制适用 - 它只能打开URL进行阅读，并且没有可用的查找操作。</p>
+<p>在版本2.7.9中进行了更改：对于HTTPS URI，<code>urllib</code>默认情况下执行所有必需的证书和主机名检查。</p>
+<p>警告</p>
+<p>对于早于2.7.9的Python版本，urllib不会尝试验证HTTPS URI的服务器证书。使用需要您自担风险！</p>
+<span id="more"></span>
+<h2 id="1-高级界面"><a href="#1-高级界面" class="headerlink" title="1.高级界面"></a>1.高级界面</h2><p><code>urllib.urlopen(url[, data[, proxies[, context]]])</code></p>
+<p>打开一个由URL表示的网络对象以供阅读。如果URL没有方案标识符，或者它有方案标识符，则会<code>file:</code>打开一个本地文件（没有<a target="_blank" rel="noopener" href="https://docs.python.org/2.7/glossary.html#term-universal-newlines">通用换行符</a>）; 否则它会打开一个到网络上某个服务器的套接字。如果无法建立连接，<code>IOError</code>则引发异常。如果一切顺利，将返回一个类似文件的对象。这支持了以下方法：<code>read()</code>，<code>readline()</code>，<code>readlines()</code>，<code>fileno()</code>，<code>close()</code>，<code>info()</code>，<code>getcode()</code>和<code>geturl()</code>。它也对<a target="_blank" rel="noopener" href="https://docs.python.org/2.7/glossary.html#term-iterator">迭代器</a>协议有适当的支持。一个警告：<code>read()</code>方法，如果size参数被省略或者是否定的，则可能直到数据流结束才读取; 在一般情况下，没有好方法可以确定来自套接字的整个流已被读取。</p>
+<p>除<code>info()</code>，<code>getcode()</code>和<code>geturl()</code>方法，这些方法具有相同的界面，文件对象-见文件对象这份手册里。（但它不是内置的文件对象，所以它不能用于需要真正的内置文件对象的地方。）</p>
+<p>该<code>info()</code>方法返回<code>mimetools.Message</code>包含与URL关联的元信息的类的一个实例。当方法是HTTP时，这些头部是服务器在检索到的HTML页面的头部（包括Content-Length和Content-Type）返回的头部。当方法是FTP时，如果服务器响应FTP检索请求传回一个文件长度（如现在一样），则会出现一个Content-Length头。如果可以猜出MIME类型，则会出现Content-Type标头。当方法是本地文件时，返回的头文件将包含表示文件上次修改时间的Date，给出文件大小的Content-Length和包含文件类型猜测的Content-Type。另请参阅<code>mimetools</code>模块的说明。</p>
+<p>该<code>geturl()</code>方法返回页面的真实URL。在某些情况下，HTTP服务器会将客户端重定向到另一个URL。该<code>urlopen()</code>函数透明地处理这个问题，但在某些情况下，调用者需要知道客户端重定向到哪个URL。该<code>geturl()</code>方法可用于获取此重定向的URL。</p>
+<p>该<code>getcode()</code>方法返回与响应一起发送的HTTP状态代码，或者<code>None</code>该URL不包含HTTP URL。</p>
+<p>如果_URL_使用<code>http:</code>方案标识符，则可以给出可选的_数据_参数来指定<code>POST</code>请求（通常请求类型是<code>GET</code>）。的_数据_参数必须是在标准_应用程序/ x-WWW窗体-urlencoded_格式; 请参阅<code>urlencode()</code>下面的功能。</p>
+<p>该<code>urlopen()</code>功能透明地与不需要认证的代理工作。在Unix或Windows环境中，在启动Python解释器之前，将环境变量<code>http_proxy</code>或<code>ftp_proxy</code>环境变量设置为标识代理服务器的URL。例如（这<code>&#39;%&#39;</code>是命令提示符）：</p>
+<p>% http_proxy=”<a href="http://www.someproxy.com:3128&quot;">http://www.someproxy.com:3128&quot;</a><br>% export http_proxy<br>% python<br>…</p>
+<p>该<code>no_proxy</code>环境变量可用于指定不应通过代理达到的主机; 如果设置，它应该是逗号分隔的主机名后缀列表，可选地<code>:port</code>附加后缀，例如<code>cern.ch,ncsa.uiuc.edu,some.host:8080</code>。</p>
+<p>在Windows环境中，如果未设置代理环境变量，则代理设置将从注册表的“Internet设置”部分获取。</p>
+<p>在Mac OS X环境中，<code>urlopen()</code>将从OS X系统配置框架中检索代理信息，可通过网络系统首选项面板进行管理。</p>
+<p>或者，可选的_代理_参数可用于显式指定代理。它必须是字典映射方案名称以代理URL，其中空字典不会导致使用代理，并且<code>None</code>（默认值）会导致如上所述使用环境代理设置。例如：</p>
+<p># Use <a target="_blank" rel="noopener" href="http://www.someproxy.com:3128/">http://www.someproxy.com:3128</a> for HTTP proxying<br>proxies = {‘http’: ‘<a href="http://www.someproxy.com:3128&#39;}">http://www.someproxy.com:3128&#39;}</a><br>filehandle = urllib.urlopen(some_url, proxies=proxies)<br># Don’t use any proxies<br>filehandle = urllib.urlopen(some_url, proxies={})<br># Use proxies from environment - both versions are equivalent<br>filehandle = urllib.urlopen(some_url, proxies=None)<br>filehandle = urllib.urlopen(some_url)</p>
+<p>目前不支持需要使用认证的代理; 这被视为实施限制。</p>
+<p>该_情境_参数可以设置为一个<code>ssl.SSLContext</code>实例来配置如果使用SSL设置<code>urlopen()</code>使得HTTPS连接。</p>
+<p>在版本2.3中更改：添加了_代理_支持。</p>
+<p>在版本2.6中进行了更改：添加<code>getcode()</code>到返回的对象并支持<code>no_proxy</code>环境变量。</p>
+<p>在版本2.7.9中更改：已添加_上下文_参数。所有必需的证书和主机名检查都是默认完成的。</p>
+<p>自2.6版弃用：该<code>urlopen()</code>功能已在Python 3中被删除，以支持<code>urllib2.urlopen()</code>。</p>
+<p><code>urllib.urlretrieve(url[, filename[, reporthook[, data]]])</code></p>
+<p>如有必要，将由URL表示的网络对象复制到本地文件。如果URL指向本地文件，或者该对象的有效缓存副本存在，则不会复制该对象。返回一个元组<code>(filename, headers)</code>，其中_filename_是可以找到该对象的本地文件名，而_headers_是<code>info()</code>返回的对象的方法<code>urlopen()</code>（对于可能缓存的远程对象）。例外情况与之相同<code>urlopen()</code>。</p>
+<p>第二个参数（如果存在）指定要复制到的文件位置（如果不存在，则该位置将是具有生成名称的临时文件）。第三个参数（如果存在的话）是一个钩子函数，在建立网络连接时会被调用一次，之后每个块被读取一次。该钩子将传递三个参数; 到目前为止传输的块的数量，以字节为单位的块大小以及文件的总大小。第三个参数可能<code>-1</code>在较旧的FTP服务器上，它们不响应检索请求而返回文件大小。</p>
+<p>如果_URL_使用<code>http:</code>方案标识符，则可以给出可选的_数据_参数来指定<code>POST</code>请求（通常请求类型是<code>GET</code>）。的_数据_参数必须在标准_应用程序/ x-WWW窗体-urlencoded_格式; 请参阅<code>urlencode()</code>下面的功能。</p>
+<p>在版本2.5中进行了更改：当它检测到可用数据量小于预期量（这是_Content-Length_报头报告的大小）时<code>urlretrieve()</code>将会增加。例如，当下载被中断时，会发生这种情况。<code>ContentTooShortError</code></p>
+<p>该_内容长度_被视为一个下界：如果有更多的数据读取，<code>urlretrieve()</code>读取更多的数据，但如果较少的数据是可用的，它引发异常。</p>
+<p>在这种情况下，您仍可以检索下载的数据，并将其存储在<code>content</code>异常实例的属性中。</p>
+<p>如果未提供_Content-Length_标头，<code>urlretrieve()</code>则无法检查已下载数据的大小，只是将其返回。在这种情况下，您只需假定下载成功。</p>
+<p><code>urllib._urlopener</code></p>
+<p>公共职能<code>urlopen()</code>并<code>urlretrieve()</code>创建<code>FancyURLopener</code>该类的一个实例并用它来执行他们所请求的操作。要覆盖此功能，程序员可以创建<code>URLopener</code>or 的子类<code>FancyURLopener</code>，然后<code>urllib._urlopener</code>在调用所需的函数之前将该类的实例分配给该变量。例如，应用程序可能希望指定与定义不同的_User-Agent_标头<code>URLopener</code>。这可以用下面的代码来完成：</p>
+<p>import urllib</p>
+<p>class AppURLopener(urllib.FancyURLopener):<br>    version = “App/1.7”</p>
+<p>urllib._urlopener = AppURLopener()</p>
+<p><code>urllib.urlcleanup()</code></p>
+<p>清除以前通过呼叫建立的缓存<code>urlretrieve()</code>。</p>
+<h2 id="2-实用功能"><a href="#2-实用功能" class="headerlink" title="2.实用功能"></a>2.实用功能</h2><p><code>urllib.quote(string[, safe])</code></p>
+<p>使用转义替换_字符串_中的特殊字符<code>%xx</code>。字母，数字和字符<code>&#39;_.-&#39;</code>从未被引用。默认情况下，此功能用于引用URL的路径部分。可选的_安全_参数指定不应引用的附加字符 - 其默认值为<code>&#39;/&#39;</code>。</p>
+<p>Example: <code>quote(&#39;/~connolly/&#39;)</code> yields <code>&#39;/%7econnolly/&#39;</code>.</p>
+<p><code>urllib.quote_plus(string[, safe])</code></p>
+<p>就像<code>quote()</code>，但也用加号替换空格，这是在构建查询字符串进入URL时引用HTML表单值所需的。除非包含在_保险箱中，_否则原始字符串中的加号会被转义。它也没有_安全的_默认值<code>&#39;/&#39;</code>。</p>
+<p><code>urllib.unquote(string)</code></p>
+<p>用<code>%xx</code>它们的单字符替换换码。</p>
+<p>Example: <code>unquote(&#39;/%7Econnolly/&#39;)</code> yields <code>&#39;/~connolly/&#39;</code>.</p>
+<p><code>urllib.unquote_plus(string)</code></p>
+<p>就像<code>unquote()</code>，但也用空格替换加号，以取消引用HTML表单值。</p>
+<p><code>urllib.urlencode(query[, doseq])</code></p>
+<p>将映射对象或两元素元组序列转换为“百分比编码”字符串，适合<code>urlopen()</code>作为可选_数据_参数传递给上面的元素。这对于将表单字段的字典传递给<code>POST</code>请求很有用。生成的字符串是一系列<code>key=value</code>由<code>&#39;&amp;&#39;</code>字符分隔的对，其中_键_和_值_都使用<code>quote_plus()</code>上面的引号。当使用两元素元组作为_查询_参数时，每个元组的第一个元素是一个键，第二个元素是一个值。价值元素本身可以是一个序列，在这种情况下，如果可选参数_doseq_被评估为<code>True</code>，单独的<code>key=value</code>对被分隔<code>&#39;&amp;&#39;</code>为密钥的值序列的每个元素生成。编码字符串中参数的顺序将与序列中参数元组的顺序相匹配。该<code>urlparse</code>模块提供的功能<code>parse_qs()</code>和<code>parse_qsl()</code>其用于解析查询字符串成Python数据结构。</p>
+<p><code>urllib.pathname2url(path)</code></p>
+<p>将_路径_的本地语法的路径名_路径_转换为URL的路径组件中使用的表单。这不会产生完整的网址。返回值将使用该<code>quote()</code>函数引用。</p>
+<p><code>urllib.url2pathname(path)</code></p>
+<p>将路径组件_路径_从百分比编码的URL 转换为路径的本地语法。这不接受完整的网址。此功能用于<code>unquote()</code>解码_路径_。</p>
+<p><code>urllib.getproxies()</code></p>
+<p>此帮助函数将代理服务器URL映射的方案字典返回。它以<code>&lt;scheme&gt;_proxy</code>大小写敏感的方式，首先为所有操作系统扫描环境变量，并在找不到它时，从Mac OS X系统配置Mac OS X和Windows系统注册表Windows查找代理信息。如果小写和大写环境变量都存在（并且不同意），则小写是首选。</p>
+<p>注意</p>
+<p>如果<code>REQUEST_METHOD</code>设置了环境变量（通常表示脚本正在CGI环境中运行），则环境变量<code>HTTP_PROXY</code>（大写<code>_PROXY</code>）将被忽略。这是因为该变量可以由客户端使用“Proxy：”HTTP标头注入。如果您需要在CGI环境中使用HTTP代理，请<code>ProxyHandler</code>明确使用，或确保变量名是小写（或至少<code>_proxy</code>后缀）。</p>
+<p>注意</p>
+<p>urllib还公开了某些实用功能，如splittype，splithost和其他解析URL到各种组件。但建议使用它<code>urlparse</code>来解析URL而不是直接使用这些函数。Python 3不从<code>urllib.parse</code>模块公开这些帮助函数。</p>
+<h2 id="3-URL开启器对象"><a href="#3-URL开启器对象" class="headerlink" title="3. URL开启器对象"></a>3. URL开启器对象</h2><p><code>class urllib.URLopener([proxies[, context[, **x509]]])</code></p>
+<p>打开和阅读URL的基类。除非你需要使用比其他方案来支持开放的对象<code>http:</code>，<code>ftp:</code>或者<code>file:</code>，你可能想使用<code>FancyURLopener</code>。</p>
+<p>默认情况下，<code>URLopener</code>该类将发送一个_User-Agent_标头<code>urllib/VVV</code>，其中_VVV_是<code>urllib</code>版本号。应用程序可以通过子类定义它们自己的_User-Agent_头，<code>URLopener</code>或者在子类定义<code>FancyURLopener</code>中将类属性<code>version</code>设置为合适的字符串值。</p>
+<p>可选的_代理_参数应该是字典映射方案名称到代理URL，其中空字典将代理完全关闭。它的默认值是<code>None</code>，在这种情况下，如果存在的话，将使用环境代理设置，如<code>urlopen()</code>上面的定义中所讨论的。</p>
+<p>该_情境_参数可以是一个<code>ssl.SSLContext</code>实例。如果给定，它定义开启者用于建立HTTPS连接的SSL设置。</p>
+<p>在_x509中_收集的其他关键字参数可用于在使用该<code>https:</code>方案时验证客户端。支持关键字_key_file_和_cert_file_以提供SSL密钥和证书; 两者都需要支持客户端身份验证。</p>
+<p><code>URLopenerIOError</code>如果服务器返回错误代码，则对象将引发异常。</p>
+<p><code>open(fullurl[, data])</code></p>
+<p>使用适当的协议打开_fullurl_。此方法设置缓存和代理信息，然后使用其输入参数调用相应的open方法。如果该方案未被识别，<code>open_unknown()</code>则被调用。该_数据_参数的含义相同_数据_的说法<code>urlopen()</code>。</p>
+<p><code>open_unknown(fullurl[, data])</code></p>
+<p>可覆盖的界面打开未知的URL类型。</p>
+<p><code>retrieve(url[, filename[, reporthook[, data]]])</code></p>
+<p>检索_url_的内容并将其放在_文件名中_。返回值是由本地文件名和<code>mimetools.Message</code>包含响应头的对象（对于远程URL）或<code>None</code>（对于本地URL）组成的元组。调用者必须打开并读取_文件名_的内容。如果没有给出_文件名_并且URL指向本地文件，则返回输入文件名。如果URL非本地和_文件名_没有给出，则该文件的输出<code>tempfile.mktemp()</code>与输入URL的最后一个路径成分的后缀匹配的后缀。如果有_报告_给出，它必须是一个接受三个数字参数的函数。它将在每个数据块从网络中读取后调用。对于本地URL，_reporthook_被忽略。</p>
+<p>如果_URL_使用<code>http:</code>方案标识符，则可以给出可选的_数据_参数来指定<code>POST</code>请求（通常请求类型是<code>GET</code>）。的_数据_参数必须在标准_应用程序/ x-WWW窗体-urlencoded_格式; 请参阅<code>urlencode()</code>下面的功能。</p>
+<p><code>version</code></p>
+<p>指定开启器对象的用户代理的变量。为了<code>urllib</code>告诉服务器它是一个特定的用户代理，在调用基础构造函数之前，在子类中将其设置为类变量或构造函数中。</p>
+<p><code>class urllib.FancyURLopener(...)</code></p>
+<p><code>FancyURLopener</code>子类<code>URLopener</code>为下列HTTP响应代码提供默认处理：301,302,303,307和401.对于上面列出的30x响应代码，_Location_标头用于获取实际的URL。对于401响应代码（需要认证），执行基本的HTTP认证。对于30x响应代码，递归受限于_maxtries_属性的值，默认值为10。</p>
+<p>对于所有其他响应代码，将<code>http_error_default()</code>调用该方法，您可以在子类中重写以适当地处理错误。</p>
+<p>注意</p>
+<p>根据<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616的规定</strong></a>，301和302对POST请求的响应不得在没有用户确认的情况下自动重定向。实际上，浏览器确实允许自动重定向这些响应，将POST更改为GET，并<code>urllib</code>重现此行为。</p>
+<p>构造函数的参数与那些参数相同<code>URLopener</code>。</p>
+<p>注意</p>
+<p>执行基本身份验证时，<code>FancyURLopener</code>实例将调用其<code>prompt_user_passwd()</code>方法。默认实现向用户询问控制终端上的所需信息。如果需要，子类可以重写此方法以支持更适当的行为。</p>
+<p>本<code>FancyURLopener</code>类提供了应该被重载，以提供适当的行为一个额外的方法：</p>
+<p><code>prompt_user_passwd(host, realm)</code></p>
+<p>返回在指定的安全领域中对给定主机上的用户进行身份验证所需的信息。返回值应该是一个元组，<code>(user, password)</code>可用于基本认证。</p>
+<p>实施提示在终端上提供这些信息; 应用程序应该重写此方法以在本地环境中使用适当的交互模型。</p>
+<p><code>exception urllib.ContentTooShortError(msg[, content])</code></p>
+<p>当<code>urlretrieve()</code>函数检测到下载的数据量小于预期量（由_Content-Length_标题给出）时，会引发此异常。该<code>content</code>属性存储下载的（并且假定被截断的）数据。</p>
+<p>2.5版本中的新功能。</p>
+<h2 id="4-urllib限制"><a href="#4-urllib限制" class="headerlink" title="4. urllib限制"></a>4. urllib限制</h2><ul>
+<li><p>  目前，仅支持以下协议：HTTP，（版本0.9和1.0），FTP和本地文件。</p>
+</li>
+<li><p>  缓存功能<code>urlretrieve()</code>已被禁用，直到我找到时间来破解正确处理过期时间标题。</p>
+</li>
+<li><p>  应该有一个函数来查询一个特定的URL是否在缓存中。</p>
+</li>
+<li><p>  为了向后兼容，如果URL看起来指向本地文件，但文件无法打开，则使用FTP协议重新解释URL。这有时会导致混淆错误消息。</p>
+</li>
+<li><p>  的<code>urlopen()</code>和<code>urlretrieve()</code>功能可能会导致任意长时间的延迟，而等待网络连接被建立。这意味着使用这些函数而不使用线程来构建交互式Web客户端是很困难的。</p>
+</li>
+<li><p>  由<code>urlopen()</code>or 返回的<code>urlretrieve()</code>数据是服务器返回的原始数据。这可能是二进制数据（如图像），纯文本或（例如）HTML。HTTP协议在应答头中提供了类型信息，可以通过查看_Content-Type_头来检查。如果返回的数据是HTML，则可以使用该模块<code>htmllib</code>解析它。</p>
+</li>
+<li><p>  处理FTP协议的代码不能区分文件和目录。当尝试读取指向无法访问的文件的URL时，这可能会导致意外的行为。如果URL以a结尾<code>/</code>，则假定引用一个目录并将相应地处理。但是，如果尝试读取文件导致550错误（意思是无法找到URL或者由于权限原因而无法访问该URL），那么该路径将被视为目录以处理指定目录时的情况由一个URL但尾随<code>/</code>已经被关闭了。当您尝试获取读取权限使其无法访问的文件时，这可能会导致误导性结果; FTP代码将尝试读取它，以550错误失败，然后执行不可读文件的目录列表。如果需要细粒度控制，请考虑使用<code>ftplib</code>模块，子类<code>FancyURLopener</code>或更改__urlopener_以满足您的需求。</p>
+</li>
+<li><p>  该模块不支持使用需要认证的代理。这可能会在未来实施。</p>
+</li>
+<li><p>  虽然<code>urllib</code>模块包含解析和解析URL字符串的（未记录的）例程，但推荐的URL操作接口在模块中<code>urlparse</code>。</p>
+</li>
+</ul>
+<h2 id="5-例子"><a href="#5-例子" class="headerlink" title="5.例子"></a>5.例子</h2><p>以下是使用该<code>GET</code>方法检索包含参数的URL 的示例会话：</p>
+<blockquote>
+<blockquote>
+<p>&gt; import urllib<br>&gt; params = urllib.urlencode({‘spam’: 1, ‘eggs’: 2, ‘bacon’: 0})<br>&gt; f = urllib.urlopen(“<a target="_blank" rel="noopener" href="http://www.musi-cal.com/cgi-bin/query?%25s&quot;">http://www.musi-cal.com/cgi-bin/query?%s&quot;</a> % params)<br>&gt; print f.read()</p>
+</blockquote>
+</blockquote>
+<p>以下示例使用该<code>POST</code>方法：</p>
+<blockquote>
+<blockquote>
+<p>&gt; import urllib<br>&gt; params = urllib.urlencode({‘spam’: 1, ‘eggs’: 2, ‘bacon’: 0})<br>&gt; f = urllib.urlopen(“<a target="_blank" rel="noopener" href="http://www.musi-cal.com/cgi-bin/query&quot;">http://www.musi-cal.com/cgi-bin/query&quot;</a>, params)<br>&gt; print f.read()</p>
+</blockquote>
+</blockquote>
+<p>以下示例使用明确指定的HTTP代理覆盖环境设置：</p>
+<blockquote>
+<blockquote>
+<p>&gt; import urllib<br>&gt; proxies = {‘http’: ‘<a target="_blank" rel="noopener" href="http://proxy.example.com:8080/&#39;}">http://proxy.example.com:8080/&#39;}</a><br>&gt; opener = urllib.FancyURLopener(proxies)<br>&gt; f = opener.open(“<a target="_blank" rel="noopener" href="http://www.python.org&quot;/">http://www.python.org&quot;</a>)<br>&gt; f.read()</p>
+</blockquote>
+</blockquote>
+<p>以下示例完全不使用代理，覆盖环境设置：</p>
+<blockquote>
+<blockquote>
+<p>&gt; import urllib<br>&gt; opener = urllib.FancyURLopener({})<br>&gt; f = opener.open(“<a target="_blank" rel="noopener" href="http://www.python.org/&quot;">http://www.python.org/&quot;</a>)<br>&gt; f.read()</p>
+</blockquote>
+</blockquote>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'MyX4PiXsizWYy8EuLEFEE05g-MdYXbMMI',
+      app_key: 'rvmEQ2Sd345um4vPgXbnKbje',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#urllib"><span class="toc-number">1.</span> <span class="toc-text">urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%AB%98%E7%BA%A7%E7%95%8C%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">1.高级界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9E%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.</span> <span class="toc-text">2.实用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-URL%E5%BC%80%E5%90%AF%E5%99%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.3.</span> <span class="toc-text">3. URL开启器对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-urllib%E9%99%90%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. urllib限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BE%8B%E5%AD%90"><span class="toc-number">1.5.</span> <span class="toc-text">5.例子</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/06/06/python-urllib/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&text=urllib模块之python 3"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&is_video=false&description=urllib模块之python 3"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=urllib模块之python 3&body=Check out this article: https://www.buhuixiu.com/2021/06/06/python-urllib/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&title=urllib模块之python 3"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/06/06/python-urllib/&name=urllib模块之python 3&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;p&gt;&lt;a href=&#34;/developer/doc/1198&#34;&gt;Python&lt;/a&gt;&lt;a href=&#34;/developer/chapter/16176&#34;&gt;网络 | Internet&lt;/a&gt;urllib&lt;/p&gt;
+&lt;h1 id=&#34;urllib&#34;&gt;&lt;a href=&#34;#urllib&#34; class=&#34;headerlink&#34; title=&#34;urllib&#34;&gt;&lt;/a&gt;urllib&lt;/h1&gt;&lt;p&gt;注意&lt;/p&gt;
+&lt;p&gt;该&lt;code&gt;urllib&lt;/code&gt;模块已经被分成部分和在Python 3重命名为&lt;code&gt;urllib.request&lt;/code&gt;，&lt;code&gt;urllib.parse&lt;/code&gt;，和&lt;code&gt;urllib.error&lt;/code&gt;。该&lt;a href=&#34;https://docs.python.org/2.7/glossary.html#term-2to3&#34;&gt;2to3的&lt;/a&gt;转换你的源代码时，Python 3的另外请注意，该工具会自动适应进口&lt;code&gt;urllib.request.urlopen()&lt;/code&gt;在Python 3功能相当于&lt;code&gt;urllib2.urlopen()&lt;/code&gt;并且&lt;code&gt;urllib.urlopen()&lt;/code&gt;已被删除。&lt;/p&gt;
+&lt;p&gt;该模块提供了一个高级接口，用于通过万维网获取数据。特别是，该&lt;code&gt;urlopen()&lt;/code&gt;函数与内置函数类似&lt;code&gt;open()&lt;/code&gt;，但接受通用资源定位符（URL）而不是文件名。有些限制适用 - 它只能打开URL进行阅读，并且没有可用的查找操作。&lt;/p&gt;
+&lt;p&gt;在版本2.7.9中进行了更改：对于HTTPS URI，&lt;code&gt;urllib&lt;/code&gt;默认情况下执行所有必需的证书和主机名检查。&lt;/p&gt;
+&lt;p&gt;警告&lt;/p&gt;
+&lt;p&gt;对于早于2.7.9的Python版本，urllib不会尝试验证HTTPS URI的服务器证书。使用需要您自担风险！&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/06/06/python-urllib/&t=urllib模块之python 3"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

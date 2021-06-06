@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Sampson&#39;s blog">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-06T09:26:52.454Z">
+<meta property="article:modified_time" content="2021-06-06T09:26:52.454Z">
+<meta property="article:author" content="Sampson.Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Sampson&#39;s blog</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/06/06/python-urllib/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/06/06/hexo-to-server/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&t="><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%AE%BF%E9%97%AE%E7%AB%99%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">4, 访问站点</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-06T09:26:52.454Z" itemprop="datePublished">2021-06-06</time>
+        
+        (Updated: <time datetime="2021-06-06T09:26:52.454Z" itemprop="dateModified">2021-06-06</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<p>﻿Hexo 部署到 github</p>
+<p>1,前提： hexo安装OK , node.js 安装OK</p>
+<p>2,准备：2.1 安装GIT ,   2.2 添加ssh key 到Github   2.3  在github添加项目  2.4 修改站点配置文件 _config.yml   2.5 发布流程 </p>
+<p>3，bug修复</p>
+<p>4，访问站点。</p>
+<p><strong>2.1</strong> <strong>安装****git</strong> ,</p>
+<p>安装git ,如果没有安装,则无法连接git 或找不到git ,则需要执行如下命令来安装hexo-deployer-git:</p>
+<p>$npm install hexo-deployer-git –save</p>
+<p>配置<strong>Deployment</strong>首先，你需要为自己配置身份信息，打开命令行，然后输入：</p>
+<ul>
+<li>  <em>git config –global user.name “yourname”</em></li>
+<li>  <em>git config –global user.email “youremail”</em></li>
+<li>  <strong><em>#git config –global user.name “zhuxinkai”</em></strong></li>
+<li>  <strong><em>#git config –global user.email “<a href="mailto:&#122;&#104;&#117;&#120;&#105;&#110;&#107;&#x61;&#105;&#64;&#49;&#x32;&#54;&#x2e;&#99;&#111;&#109;">&#122;&#104;&#117;&#120;&#105;&#110;&#107;&#x61;&#105;&#64;&#49;&#x32;&#54;&#x2e;&#99;&#111;&#109;</a>“</em></strong></li>
+</ul>
+<p>以上做完还不行</p>
+<p>删掉根目录下的文件夹：.deploy_git，重新deploy就可以了。</p>
+<p> 以上是在SSH配置好的前提下</p>
+<p><strong>2.2</strong> <strong>添加****ssh</strong></p>
+<p>2.2.1 首先在自己的环境，生成密钥对。</p>
+<p>1.1.检查SSH keys是否存在Github</p>
+<p>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤1.3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
+<p>$ ls -al ~/.ssh</p>
+<p>1.2.生成新的ssh key</p>
+<p>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:&#x79;&#x6f;&#x75;&#114;&#x5f;&#x65;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;">&#x79;&#x6f;&#x75;&#114;&#x5f;&#x65;&#109;&#97;&#105;&#x6c;&#64;&#x65;&#x78;&#x61;&#x6d;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;</a>换成你自己注册Github的邮箱地址。</p>
+<p>$ ssh-keygen -t rsa -C “<a href="mailto:&#121;&#x6f;&#x75;&#x72;&#95;&#x65;&#x6d;&#x61;&#105;&#x6c;&#64;&#101;&#x78;&#97;&#109;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;">&#121;&#x6f;&#x75;&#x72;&#95;&#x65;&#x6d;&#x61;&#105;&#x6c;&#64;&#101;&#x78;&#97;&#109;&#x70;&#x6c;&#101;&#x2e;&#99;&#111;&#x6d;</a>“</p>
+<p>#ssh-keygen -t rsa -C “<a href="mailto:&#x7a;&#104;&#x75;&#120;&#105;&#110;&#x6b;&#x61;&#x69;&#64;&#49;&#50;&#x36;&#x2e;&#99;&#111;&#109;">&#x7a;&#104;&#x75;&#120;&#105;&#110;&#x6b;&#x61;&#x69;&#64;&#49;&#50;&#x36;&#x2e;&#99;&#111;&#109;</a>“</p>
+<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
+<p>1.3.将ssh key添加到Github中</p>
+<p>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
+<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
+<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
+<p>添加后，在git bash命令输入：</p>
+<p>ssh -T <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#46;&#x63;&#111;&#100;&#x69;&#110;&#103;&#46;&#x6e;&#101;&#116;">&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#46;&#x63;&#111;&#100;&#x69;&#110;&#103;&#46;&#x6e;&#101;&#116;</a>    测试公钥配置的有效性，地址该为 github的。这个是coding 的地址。</p>
+<p><strong>2.3</strong> <strong>在github中添加项目</strong></p>
+<p><strong>项目名称遵循后规范：</strong> **(**<strong>你的username)   zhuxinkai+github+io</strong></p>
+<p><strong>2.4</strong> <strong>修改站点配置文件：</strong></p>
+<p><strong>Vim hexo/_config.yml</strong></p>
+<p># Deployment</p>
+<p>## Docs: <a target="_blank" rel="noopener" href="https://hexo.io/docs/deployment.html">https://hexo.io/docs/deployment.html</a></p>
+<p>deploy:</p>
+<p>  type: git</p>
+<p>  repository: <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;">&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;</a>:zhuxinkai/zhuxinkai.github.io.git</p>
+<p>  branch: master</p>
+<p><strong>2.5</strong> <strong>发布流程</strong></p>
+<p>#hexo clean</p>
+<p>#hexo generate</p>
+<p>#hexo deploy</p>
+<ol start="3">
+<li> BUG 修复</li>
+</ol>
+<p>其中遇到两个问题，</p>
+<p>3.1  第一个是 hexo deploy 报错。 其中github 的ssh已经配置正确。  添加如下配置后，正常。    git config -global user.name”zhuxinkai”</p>
+<p>                                                                                                                                                                            git config -global user.email “<a href="mailto:&#122;&#x68;&#x75;&#x78;&#105;&#110;&#x6b;&#x61;&#x69;&#x40;&#x31;&#x32;&#x36;&#x2e;&#x63;&#111;&#x6d;">&#122;&#x68;&#x75;&#x78;&#105;&#110;&#x6b;&#x61;&#x69;&#x40;&#x31;&#x32;&#x36;&#x2e;&#x63;&#111;&#x6d;</a>“</p>
+<p>3.2 就是上传成功后找不到域名。</p>
+<p>  zhuxinkai.github.io</p>
+<h1 id="4-访问站点"><a href="#4-访问站点" class="headerlink" title="4, 访问站点"></a>4, 访问站点</h1><p>在浏览器  输入   zhuxinkai.github.io 即可。每次更新文件，需要按照发布流程跑一遍。</p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'MyX4PiXsizWYy8EuLEFEE05g-MdYXbMMI',
+      app_key: 'rvmEQ2Sd345um4vPgXbnKbje',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%AE%BF%E9%97%AE%E7%AB%99%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">4, 访问站点</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/06/06/Hexo%E9%83%A8%E7%BD%B2%E5%88%B0github/&t="><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

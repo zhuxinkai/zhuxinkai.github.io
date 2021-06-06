@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="新建Django的第一个应用">
+<meta property="og:url" content="https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-18T07:41:18.000Z">
+<meta property="article:modified_time" content="2017-08-18T07:41:18.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="Django">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>新建Django的第一个应用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2017/08/18/Django-dev%E7%8E%AF%E5%A2%83/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2017/08/18/Git%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E9%9B%86%E9%94%A6-PDF%E7%89%88/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&text=新建Django的第一个应用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&is_video=false&description=新建Django的第一个应用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新建Django的第一个应用&body=Check out this article: https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&name=新建Django的第一个应用&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;h3 id=&#34;2-3-3-Creating-the-Polls-app&#34;&gt;&lt;a href=&#34;#2-3-3-Creating-the-Polls-app&#34; class=&#34;headerlink&#34; title=&#34;2.3.3 Creating the Polls app&#34;&gt;&lt;/a&gt;2.3.3 Creating the Polls app&lt;/h3&gt;&lt;p&gt;Now that your environment – a “project” – is set up, you’re set to start doing work.&lt;br&gt;Each application you write in Django consists of a Python package that follows a certain convention. Django comes&lt;br&gt;with a utility that automatically generates the basic directory structure of an app, so you can focus on writing code&lt;br&gt;rather than creating directories.&lt;br&gt;Projects vs. apps&lt;br&gt;What’s the difference between a project and an app? An app is aWeb application that does something – e.g., aWeblog&lt;br&gt;system, a database of public records or a small poll app. A project is a collection of configuration and apps for a&lt;br&gt;particular website. A project can contain multiple apps. An app can be in multiple projects.&lt;br&gt;Your apps can live anywhere on your Python path. In this tutorial, we’ll create our poll app in the same directory as&lt;br&gt;your manage.py file so that it can be imported as its own top-level module, rather than a submodule of mysite.&lt;br&gt;To create your app, make sure you’re in the same directory as manage.py and type this command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ python manage.py startapp polls
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That’ll create a directory polls, which is laid out like this:&lt;br&gt;16&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;根urls.py
+
+urlpatterns=[
+    path(&amp;#39;admin/&amp;#39;,admin.site.urls),
+    path(&amp;#39;hello/&amp;#39;,include(&amp;#39;myapp.urls&amp;#39;)),
+    path(&amp;#39;sign/&amp;#39;,include(&amp;#39;myapp.urls&amp;#39;)),]
+&lt;/code&gt;&lt;/pre&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&t=新建Django的第一个应用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Django%E5%8A%A0%E8%BD%BDURLconf%E6%A8%A1%E5%9D%97%EF%BC%88urls-py%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E5%AF%BB%E6%89%BE%E5%8F%AF%E7%94%A8%E7%9A%84urlpatterns"><span class="toc-number">1.</span> <span class="toc-text">3,Django加载URLconf模块（urls.py文件，并寻找可用的urlpatterns</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Django%E4%BE%9D%E6%AC%A1%E5%8C%B9%E9%85%8D%E6%AF%8F%E4%B8%AAURL%E6%A8%A1%E5%9D%97%EF%BC%8C%E7%9B%B4%E5%88%B0%E5%8C%B9%E9%85%8D%E5%88%B0%E7%9B%B8%E5%AF%B9%E5%BA%94%E7%9A%84%E6%A8%A1%E5%9D%97%E5%A4%84%E3%80%82"><span class="toc-number">2.</span> <span class="toc-text">4,Django依次匹配每个URL模块，直到匹配到相对应的模块处。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%EF%BC%8C%E4%B8%80%E6%97%A6%E5%8C%B9%E9%85%8D%E5%88%B0%E7%9B%B8%E5%BA%94%E7%9A%84URL%EF%BC%8C%E5%88%99%E5%B0%86%E8%AF%B7%E6%B1%82%E6%8C%87%E5%90%91%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A7%86%E5%9B%BE%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E5%8C%B9%E9%85%8D%E5%88%B0%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%EF%BC%8C%E5%88%99Django%E5%B0%86%E8%B0%83%E7%94%A8%E4%B8%80%E4%B8%AA%E9%80%82%E5%90%88%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E8%A7%86%E5%9B%BE%E3%80%82"><span class="toc-number">4.</span> <span class="toc-text">6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#request%E5%8F%82%E6%95%B0%E5%BF%85%E9%A1%BB%E6%9C%89%EF%BC%8C%E5%90%8D%E5%AD%97%E7%B1%BB%E4%BC%BCself%E7%9A%84%E9%BB%98%E8%AE%A4%E8%A7%84%E5%88%99%EF%BC%8C%E5%8F%AF%E4%BB%A5%E4%BF%AE%E6%94%B9%EF%BC%8C%E5%AE%83%E5%B0%81%E8%A3%85%E4%BA%86%E7%94%A8%E6%88%B7%E8%AF%B7%E6%B1%82%E7%9A%84%E6%89%80%E6%9C%89%E5%86%85%E5%AE%B9"><span class="toc-number">4.0.1.</span> <span class="toc-text">request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#returnHttpResponse-%E2%80%9CHelloworld-%E2%80%9D-%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%BF%85%E9%A1%BB%E6%98%AF%E7%94%B1%E8%BF%99%E4%B8%AA%E7%B1%BB%E5%B0%81%E8%A3%85%EF%BC%8C%E6%AD%A4%E4%B8%BADjango%E8%A7%84%E5%88%99"><span class="toc-number">4.0.2.</span> <span class="toc-text">returnHttpResponse(“Helloworld!”)#不能直接字符串，必须是由这个类封装，此为Django规则</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        新建Django的第一个应用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-08-18T07:41:18.000Z" itemprop="datePublished">2017-08-18</time>
+        
+        (Updated: <time datetime="2017-08-18T07:41:18.000Z" itemprop="dateModified">2017-08-18</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Django/">Django</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Django/" rel="tag">Django</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<h3 id="2-3-3-Creating-the-Polls-app"><a href="#2-3-3-Creating-the-Polls-app" class="headerlink" title="2.3.3 Creating the Polls app"></a>2.3.3 Creating the Polls app</h3><p>Now that your environment – a “project” – is set up, you’re set to start doing work.<br>Each application you write in Django consists of a Python package that follows a certain convention. Django comes<br>with a utility that automatically generates the basic directory structure of an app, so you can focus on writing code<br>rather than creating directories.<br>Projects vs. apps<br>What’s the difference between a project and an app? An app is aWeb application that does something – e.g., aWeblog<br>system, a database of public records or a small poll app. A project is a collection of configuration and apps for a<br>particular website. A project can contain multiple apps. An app can be in multiple projects.<br>Your apps can live anywhere on your Python path. In this tutorial, we’ll create our poll app in the same directory as<br>your manage.py file so that it can be imported as its own top-level module, rather than a submodule of mysite.<br>To create your app, make sure you’re in the same directory as manage.py and type this command:</p>
+<pre><code>$ python manage.py startapp polls
+</code></pre>
+<p>That’ll create a directory polls, which is laid out like this:<br>16</p>
+<pre><code>根urls.py
+
+urlpatterns=[
+    path(&#39;admin/&#39;,admin.site.urls),
+    path(&#39;hello/&#39;,include(&#39;myapp.urls&#39;)),
+    path(&#39;sign/&#39;,include(&#39;myapp.urls&#39;)),]
+</code></pre>
+<span id="more"></span>        
+<p>#django的处理流程，根urls.py.（Django使用的是根URLconf模块。这个值通常是通过ROOT_URLCONF</p>
+<pre><code>#设置（在.../settings.py中）
+ROOT_URLCONF=&#39;djangonew.urls&#39;
+</code></pre>
+<h4 id="3-Django加载URLconf模块（urls-py文件，并寻找可用的urlpatterns"><a href="#3-Django加载URLconf模块（urls-py文件，并寻找可用的urlpatterns" class="headerlink" title="3,Django加载URLconf模块（urls.py文件，并寻找可用的urlpatterns"></a>3,Django加载URLconf模块（urls.py文件，并寻找可用的urlpatterns</h4><h4 id="4-Django依次匹配每个URL模块，直到匹配到相对应的模块处。"><a href="#4-Django依次匹配每个URL模块，直到匹配到相对应的模块处。" class="headerlink" title="4,Django依次匹配每个URL模块，直到匹配到相对应的模块处。"></a>4,Django依次匹配每个URL模块，直到匹配到相对应的模块处。</h4><h4 id="5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。"><a href="#5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。" class="headerlink" title="5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。"></a>5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。</h4><h4 id="6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。"><a href="#6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。" class="headerlink" title="6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。"></a>6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。</h4><pre><code>  include(myapp.urls) 转到   myapp 中的 urls.py  ,映射到 views , views.hello 方法。
+fromdjango.urlsimportpath
+from.importviews
+urlpatterns=[path(&#39;&#39;,views.hello,name=&#39;hello&#39;),
+path(&#39;&#39;,views.hello,name=&#39;sign&#39;)]
+Name 对应，url
+
+
+Views
+
+fromdjango.shortcutsimportrender
+
+#Createyourviewshere.
+fromdjango.httpimportHttpResponse#需要导入HttpResponse模块
+
+defhello(request):
+context=&#123;&#125;
+context[&#39;hello&#39;]=&#39;HelloWorld&#39;
+returnrender(request,&#39;hello.html&#39;,context)
+</code></pre>
+<h6 id="request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容"><a href="#request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容" class="headerlink" title="request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容"></a>request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容</h6><h6 id="returnHttpResponse-“Helloworld-”-不能直接字符串，必须是由这个类封装，此为Django规则"><a href="#returnHttpResponse-“Helloworld-”-不能直接字符串，必须是由这个类封装，此为Django规则" class="headerlink" title="returnHttpResponse(“Helloworld!”)#不能直接字符串，必须是由这个类封装，此为Django规则"></a>returnHttpResponse(“Helloworld!”)#不能直接字符串，必须是由这个类封装，此为Django规则</h6></div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'MyX4PiXsizWYy8EuLEFEE05g-MdYXbMMI',
+      app_key: 'rvmEQ2Sd345um4vPgXbnKbje',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Django%E5%8A%A0%E8%BD%BDURLconf%E6%A8%A1%E5%9D%97%EF%BC%88urls-py%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E5%AF%BB%E6%89%BE%E5%8F%AF%E7%94%A8%E7%9A%84urlpatterns"><span class="toc-number">1.</span> <span class="toc-text">3,Django加载URLconf模块（urls.py文件，并寻找可用的urlpatterns</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Django%E4%BE%9D%E6%AC%A1%E5%8C%B9%E9%85%8D%E6%AF%8F%E4%B8%AAURL%E6%A8%A1%E5%9D%97%EF%BC%8C%E7%9B%B4%E5%88%B0%E5%8C%B9%E9%85%8D%E5%88%B0%E7%9B%B8%E5%AF%B9%E5%BA%94%E7%9A%84%E6%A8%A1%E5%9D%97%E5%A4%84%E3%80%82"><span class="toc-number">2.</span> <span class="toc-text">4,Django依次匹配每个URL模块，直到匹配到相对应的模块处。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%EF%BC%8C%E4%B8%80%E6%97%A6%E5%8C%B9%E9%85%8D%E5%88%B0%E7%9B%B8%E5%BA%94%E7%9A%84URL%EF%BC%8C%E5%88%99%E5%B0%86%E8%AF%B7%E6%B1%82%E6%8C%87%E5%90%91%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A7%86%E5%9B%BE%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">5，一旦匹配到相应的URL，则将请求指向对应的视图函数处理。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E5%8C%B9%E9%85%8D%E5%88%B0%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%EF%BC%8C%E5%88%99Django%E5%B0%86%E8%B0%83%E7%94%A8%E4%B8%80%E4%B8%AA%E9%80%82%E5%90%88%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E8%A7%86%E5%9B%BE%E3%80%82"><span class="toc-number">4.</span> <span class="toc-text">6，如果没有匹配到正则表达式，或者过程中抛出异常，则Django将调用一个适合的错误处理视图。</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#request%E5%8F%82%E6%95%B0%E5%BF%85%E9%A1%BB%E6%9C%89%EF%BC%8C%E5%90%8D%E5%AD%97%E7%B1%BB%E4%BC%BCself%E7%9A%84%E9%BB%98%E8%AE%A4%E8%A7%84%E5%88%99%EF%BC%8C%E5%8F%AF%E4%BB%A5%E4%BF%AE%E6%94%B9%EF%BC%8C%E5%AE%83%E5%B0%81%E8%A3%85%E4%BA%86%E7%94%A8%E6%88%B7%E8%AF%B7%E6%B1%82%E7%9A%84%E6%89%80%E6%9C%89%E5%86%85%E5%AE%B9"><span class="toc-number">4.0.1.</span> <span class="toc-text">request参数必须有，名字类似self的默认规则，可以修改，它封装了用户请求的所有内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#returnHttpResponse-%E2%80%9CHelloworld-%E2%80%9D-%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E5%BF%85%E9%A1%BB%E6%98%AF%E7%94%B1%E8%BF%99%E4%B8%AA%E7%B1%BB%E5%B0%81%E8%A3%85%EF%BC%8C%E6%AD%A4%E4%B8%BADjango%E8%A7%84%E5%88%99"><span class="toc-number">4.0.2.</span> <span class="toc-text">returnHttpResponse(“Helloworld!”)#不能直接字符串，必须是由这个类封装，此为Django规则</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&text=新建Django的第一个应用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&is_video=false&description=新建Django的第一个应用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=新建Django的第一个应用&body=Check out this article: https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&title=新建Django的第一个应用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&name=新建Django的第一个应用&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;h3 id=&#34;2-3-3-Creating-the-Polls-app&#34;&gt;&lt;a href=&#34;#2-3-3-Creating-the-Polls-app&#34; class=&#34;headerlink&#34; title=&#34;2.3.3 Creating the Polls app&#34;&gt;&lt;/a&gt;2.3.3 Creating the Polls app&lt;/h3&gt;&lt;p&gt;Now that your environment – a “project” – is set up, you’re set to start doing work.&lt;br&gt;Each application you write in Django consists of a Python package that follows a certain convention. Django comes&lt;br&gt;with a utility that automatically generates the basic directory structure of an app, so you can focus on writing code&lt;br&gt;rather than creating directories.&lt;br&gt;Projects vs. apps&lt;br&gt;What’s the difference between a project and an app? An app is aWeb application that does something – e.g., aWeblog&lt;br&gt;system, a database of public records or a small poll app. A project is a collection of configuration and apps for a&lt;br&gt;particular website. A project can contain multiple apps. An app can be in multiple projects.&lt;br&gt;Your apps can live anywhere on your Python path. In this tutorial, we’ll create our poll app in the same directory as&lt;br&gt;your manage.py file so that it can be imported as its own top-level module, rather than a submodule of mysite.&lt;br&gt;To create your app, make sure you’re in the same directory as manage.py and type this command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ python manage.py startapp polls
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That’ll create a directory polls, which is laid out like this:&lt;br&gt;16&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;根urls.py
+
+urlpatterns=[
+    path(&amp;#39;admin/&amp;#39;,admin.site.urls),
+    path(&amp;#39;hello/&amp;#39;,include(&amp;#39;myapp.urls&amp;#39;)),
+    path(&amp;#39;sign/&amp;#39;,include(&amp;#39;myapp.urls&amp;#39;)),]
+&lt;/code&gt;&lt;/pre&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/08/18/Django%E5%85%A5%E9%97%A8-2-%E6%96%B0%E5%BB%BAdjango%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/&t=新建Django的第一个应用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

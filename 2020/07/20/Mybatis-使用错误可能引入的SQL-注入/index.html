@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis 使用错误可能引入的SQL 注入">
+<meta property="og:url" content="https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.buhuixiu.com/images/1_lrLeZiGU4eA45R3ssjOY7Q.png">
+<meta property="article:published_time" content="2020-07-20T08:00:22.000Z">
+<meta property="article:modified_time" content="2020-07-20T08:00:22.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="Sql injection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.buhuixiu.com/images/1_lrLeZiGU4eA45R3ssjOY7Q.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Mybatis 使用错误可能引入的SQL 注入</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2020/07/20/%E4%BD%BF%E7%94%A8%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2%E5%B0%B1100-%E5%AE%89%E5%85%A8%E5%90%97%EF%BC%9F%E5%8F%AF%E4%BB%A5%E6%9D%9C%E7%BB%9D%E6%89%80%E6%9C%89%E7%9A%84sql-%E6%B3%A8%E5%85%A5%E5%90%97/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2020/07/07/Java-JNDI%E6%B3%A8%E5%85%A5%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87%E9%AB%98%E7%89%88%E6%9C%ACjdk-8u-191%E4%BB%A5%E4%B8%8A%E7%89%88%E6%9C%AC/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&text=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&is_video=false&description=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Mybatis 使用错误可能引入的SQL 注入&body=Check out this article: https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&name=Mybatis 使用错误可能引入的SQL 注入&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&t=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">安全使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">不安全的使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E4%B9%8B%EF%BC%8C%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8-%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%9C%A8mybatis%E7%9A%84xml%E6%96%87%E4%BB%B6%E4%B8%AD%E5%86%99%E6%9F%A5%E8%AF%A2%E3%80%82%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">总之，不要使用 ${} 方式，在mybatis的xml文件中写查询。。</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Mybatis 使用错误可能引入的SQL 注入
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-20T08:00:22.000Z" itemprop="datePublished">2020-07-20</time>
+        
+        (Updated: <time datetime="2020-07-20T08:00:22.000Z" itemprop="dateModified">2020-07-20</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Sql-injection/" rel="tag">Sql injection</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<p><a href="https://www.buhuixiu.com/images/1_lrLeZiGU4eA45R3ssjOY7Q.png" class="gallery-item"><img src="https://www.buhuixiu.com/images/1_lrLeZiGU4eA45R3ssjOY7Q.png"></a></img></p>
+<p>众所周知，MyBatis 的数据地图映射方式，使得我们在面向对象编程中，更加轻松的使用关系型数据库。<br>与传统的ORM解决方案不同，Mybatis maps 对象利用XML描述 SQL声明或者存储过程。这种使用方式提供了<br>完整的控制SQL。但是，如果不正确的使用，仍然会存在sql 注入的问题。</p>
+<h1 id="安全使用方式"><a href="#安全使用方式" class="headerlink" title="安全使用方式"></a>安全使用方式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">&quot;getPerson&quot;</span> parameterType=<span class="string">&quot;int&quot;</span> resultType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line">SELECT * FROM PERSON WHERE ID = #&#123;id&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>使用 # {}方式，使得Mybatis 使用 PreparedStatment parameters(e.g?)  使得值变得安全。相当于下面的使用方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Comparable JDBC code */</span></span><br><span class="line">String selectPerson = <span class="string">&quot;SELECT * FROM PERSON WHERE ID = ?&quot;</span>; </span><br><span class="line">PreparedStatement ps = conn.prepareStatement(selectPerson); </span><br><span class="line">ps.setInt(<span class="number">1</span>, id);</span><br></pre></td></tr></table></figure>
+<p>这样SQL 注入得到了防护。<br>下面是几个类似的安全的使用方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=<span class="string">&quot;insertPerson&quot;</span> parameterType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line"><span class="function">insert into <span class="title">Person</span> <span class="params">(id, name, email, phone)</span></span></span><br><span class="line"><span class="function"><span class="title">values</span> <span class="params">(#&#123;id&#125;, #&#123;name&#125;, #&#123;email&#125;, #&#123;phone&#125;)</span></span></span><br><span class="line"><span class="function">&lt;/insert&gt;</span></span><br><span class="line"><span class="function"> </span></span><br><span class="line"><span class="function">&lt;update id</span>=<span class="string">&quot;updatePerson&quot;</span> parameterType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line">update Person set name = #&#123;name&#125;, email = #&#123;email&#125;, phone = #&#123;phone&#125;</span><br><span class="line">where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">&lt;delete id=<span class="string">&quot;deletePerson&quot;</span> parameterType=<span class="string">&quot;int&quot;</span>&gt;</span><br><span class="line">delete from Person where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="不安全的使用方式"><a href="#不安全的使用方式" class="headerlink" title="不安全的使用方式"></a>不安全的使用方式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">&quot;getPerson&quot;</span> parameterType=<span class="string">&quot;string&quot;</span> resultType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line">SELECT * FROM PERSON WHERE NAME = #&#123;name&#125; AND PHONE LIKE <span class="string">&#x27;$&#123;phone&#125;&#x27;</span>; </span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>默认情况下，使用 ${}方式，Mybatis 会直接拼接SQL语句。 Mybatis 不会修改或者过滤字符在应用到拼接SQL语句中前。<br>假设phone 是一个用户可以控制的值，同时，没有进行数据有效性校验和恰当的字符过滤，那么攻击者可以输入一个字符payload<br>例如： “1%‘ OR ‘1’ = ‘1” for phone; 如下。这个查询将返回PERSON 表的所有行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM PERSON WHERE NAME = ? and PHONE LIKE <span class="string">&#x27;1%&#x27;</span> OR <span class="string">&#x27;1&#x27;</span> = <span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>也可以使用如下的payload ，删除PERSON 表。（适用于特定的关系型数据库） SQLSERVEER OR MYSQL ?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM PERSON WHERE NAME = ? and PHONE LIKE <span class="string">&#x27;A%&#x27;</span>; DELETE FROM PERSON; --<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>下面的这些，都是不安全的使用范例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=<span class="string">&quot;insertPerson&quot;</span> parameterType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line"><span class="function">insert into <span class="title">Person</span> <span class="params">(id, name, email, phone)</span></span></span><br><span class="line"><span class="function"><span class="title">values</span> <span class="params">(#&#123;id&#125;, #&#123;name&#125;, #&#123;email&#125;, $&#123;phone&#125;)</span></span></span><br><span class="line"><span class="function">&lt;/insert&gt;</span></span><br><span class="line"><span class="function"> </span></span><br><span class="line"><span class="function">&lt;update id</span>=<span class="string">&quot;updatePerson&quot;</span> parameterType=<span class="string">&quot;org.application.vo.Person&quot;</span>&gt;</span><br><span class="line">update Person set phone = $&#123;phone&#125;</span><br><span class="line">where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">&lt;delete id=<span class="string">&quot;deletePerson&quot;</span> parameterType=<span class="string">&quot;int&quot;</span>&gt;</span><br><span class="line">delete from Person where id = $&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="总之，不要使用-方式，在mybatis的xml文件中写查询。。"><a href="#总之，不要使用-方式，在mybatis的xml文件中写查询。。" class="headerlink" title="总之，不要使用 ${} 方式，在mybatis的xml文件中写查询。。"></a>总之，不要使用 ${} 方式，在mybatis的xml文件中写查询。。</h1></div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'MyX4PiXsizWYy8EuLEFEE05g-MdYXbMMI',
+      app_key: 'rvmEQ2Sd345um4vPgXbnKbje',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">安全使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">不安全的使用方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E4%B9%8B%EF%BC%8C%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8-%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%9C%A8mybatis%E7%9A%84xml%E6%96%87%E4%BB%B6%E4%B8%AD%E5%86%99%E6%9F%A5%E8%AF%A2%E3%80%82%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">总之，不要使用 ${} 方式，在mybatis的xml文件中写查询。。</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&text=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&is_video=false&description=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Mybatis 使用错误可能引入的SQL 注入&body=Check out this article: https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&title=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&name=Mybatis 使用错误可能引入的SQL 注入&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2020/07/20/Mybatis-%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E5%8F%AF%E8%83%BD%E5%BC%95%E5%85%A5%E7%9A%84SQL-%E6%B3%A8%E5%85%A5/&t=Mybatis 使用错误可能引入的SQL 注入"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects-url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
