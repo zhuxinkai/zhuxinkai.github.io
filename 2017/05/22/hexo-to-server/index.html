@@ -126,7 +126,7 @@
 &lt;/ol&gt;
 &lt;p&gt;&lt;a href=&#34;hexo-to-server/node-path.jpg&#34; title=&#34;node更换路径&#34; class=&#34;gallery-item&#34;&gt;&lt;img src=&#34;hexo-to-server/node-path.jpg&#34; alt=&#34;node更换路径&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;打开&lt;code&gt;cmd&lt;/code&gt;查看&lt;code&gt;node&lt;/code&gt;安装情况&lt;/p&gt;
-&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;node -v&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;npm -v&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;node -v&lt;br&gt;npm -v&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/05/22/hexo-to-server/&t=hexo to your server"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
@@ -192,13 +192,13 @@
 </ol>
 <p><a href="hexo-to-server/node-path.jpg" title="node更换路径" class="gallery-item"><img src="hexo-to-server/node-path.jpg" alt="node更换路径"></a></p>
 <p>打开<code>cmd</code>查看<code>node</code>安装情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">node -v<br>npm -v<br></code></pre></td></tr></table></figure>
 <span id="more"></span>
 <ol start="3">
 <li>配置全局环境</li>
 </ol>
 <p>进入安装目录，创建文件夹<code>node_global</code>和<code>node_cache</code> 并执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> prefix <span class="string">&quot;D:\programming\nodejs\node_global&quot;</span></span><br><span class="line">npm config <span class="built_in">set</span> cache <span class="string">&quot;D:\programming\nodejs\node_cache&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm config <span class="hljs-built_in">set</span> prefix <span class="hljs-string">&quot;D:\programming\nodejs\node_global&quot;</span><br>npm config <span class="hljs-built_in">set</span> cache <span class="hljs-string">&quot;D:\programming\nodejs\node_cache&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>环境配置：新增环境变量<code>NODE_PATH</code>和添加<code>Path</code>，两个值都为 <code>D:\programming\nodejs\node_global</code></p>
 <p><a href="hexo-to-server/env-node.jpg" title="node更换路径" class="gallery-item"><img src="hexo-to-server/env-node.jpg" alt="node更换路径"></a></p>
@@ -206,7 +206,7 @@
 <ol start="4">
 <li>安装<code>hexo-cli</code></li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br><span class="line">hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm i hexo-cli -g<br>hexo<br></code></pre></td></tr></table></figure>
 
 <p>如果显示下面情况，恭喜你成功全局模块调用</p>
 <p><a href="hexo-to-server/test-hexo.jpg" title="node更换路径" class="gallery-item"><img src="hexo-to-server/test-hexo.jpg" alt="node更换路径"></a></p>
@@ -216,44 +216,44 @@
 <li><p>随便找个地方初始化文件，执行如下命令：</p>
 </li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir hexo-blog</span><br><span class="line"><span class="built_in">cd</span> hexo-blog &amp;&amp; npm init -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkdir hexo-blog<br><span class="hljs-built_in">cd</span> hexo-blog &amp;&amp; npm init -y<br></code></pre></td></tr></table></figure>
 
 <p>现在有 3 种解决方法，<strong>任选其一</strong></p>
 <ul>
 <li>法 1：检查全局目录是否的<code>hexo</code>模块，执行如下命令：</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\programming\nodejs\node_global\hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">D:\programming\nodejs\node_global\hexo<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>法 2：如果觉得每次加前缀麻烦，使用<code>link</code>命令链接</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm link hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm link hexo<br></code></pre></td></tr></table></figure>
 
 <p>package.json 中新建脚本如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run hexo<br></code></pre></td></tr></table></figure>
 
 <p><a href="hexo-to-server/npm-script.jpg" title="新建npm脚本" class="gallery-item"><img src="hexo-to-server/npm-script.jpg" alt="新建npm脚本"></a></p>
 <ul>
 <li>法 3：你还可以直接在<code>hexo-blog</code>中下载</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-cli</span><br><span class="line">npm run hexo （还是要在package.json中新建脚本）</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm i hexo-cli<br>npm run hexo （还是要在package.json中新建脚本）<br></code></pre></td></tr></table></figure>
 
 <h3 id="初始化hexo项目"><a href="#初始化hexo项目" class="headerlink" title="初始化hexo项目"></a>初始化<code>hexo</code>项目</h3><ol>
 <li>如果是按照上一节步骤 4 过来的，则在<code>hexo-blog</code>文件下初始化</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog &amp;&amp; <span class="built_in">cd</span> myblog</span><br><span class="line">npm i</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo init myblog &amp;&amp; <span class="hljs-built_in">cd</span> myblog<br>npm i<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>下载主题</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next<br></code></pre></td></tr></table></figure>
 
 <p>在<strong>本地配置文件</strong>中设置<code>theme</code>属性</p>
 <p><a href="hexo-to-server/hexo-theme.jpg" title="添加next主题" class="gallery-item"><img src="hexo-to-server/hexo-theme.jpg" alt="添加next主题"></a></p>
 <ol start="3">
 <li>本地执行<code>hexo</code>项目，添加<code>start</code>脚本</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm start<br></code></pre></td></tr></table></figure>
 
 <p><a href="hexo-to-server/npm-script-start.jpg" title="新建npm-start脚本" class="gallery-item"><img src="hexo-to-server/npm-script-start.jpg" alt="新建npm-start脚本"></a></p>
 <p>打开 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 验证效果吧</p>
@@ -263,7 +263,7 @@
 <li><p>生成<code>ssh</code>认证，执行如下命令</p>
 </li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;yourname&quot;</span></span><br><span class="line">git config --global user.email youremail@example.com</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span><br><span class="line">git config --global core.autocrlf <span class="literal">false</span>  // 禁用自动转换，这个不设置后面上传时会出现警告，如下</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global user.name <span class="hljs-string">&quot;yourname&quot;</span><br>git config --global user.email youremail@example.com<br>ssh-keygen -t rsa -C <span class="hljs-string">&quot;youremail@example.com&quot;</span><br>git config --global core.autocrlf <span class="hljs-literal">false</span>  // 禁用自动转换，这个不设置后面上传时会出现警告，如下<br></code></pre></td></tr></table></figure>
 
 <p><a href="hexo-to-server/git-warning.jpg" title="git警告" class="gallery-item"><img src="hexo-to-server/git-warning.jpg" alt="git警告"></a></p>
 <p>最后获取到的<code>ssh</code>认证在<code>C:\Users\yourname\.ssh</code>中</p>
@@ -274,52 +274,52 @@
 <li><p>安装 git</p>
 </li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git --version // 如无，则安装</span><br><span class="line">yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-devel</span><br><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git --version // 如无，则安装<br>yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-devel<br>yum install -y git<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>创建用户并配置其仓库</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">useradd git</span><br><span class="line">passwd git // 设置密码</span><br><span class="line">su git // 这步很重要，不切换用户后面会很麻烦</span><br><span class="line"><span class="built_in">cd</span> /home/git/</span><br><span class="line">mkdir -p projects/blog // 项目存在的真实目录</span><br><span class="line">mkdir repos &amp;&amp; <span class="built_in">cd</span> repos</span><br><span class="line">git init --bare blog.git // 创建一个裸露的仓库</span><br><span class="line"><span class="built_in">cd</span> blog.git/hooks</span><br><span class="line">vi post-receive // 创建 hook 钩子函数，输入了内容如下</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">useradd git<br>passwd git // 设置密码<br>su git // 这步很重要，不切换用户后面会很麻烦<br><span class="hljs-built_in">cd</span> /home/git/<br>mkdir -p projects/blog // 项目存在的真实目录<br>mkdir repos &amp;&amp; <span class="hljs-built_in">cd</span> repos<br>git init --bare blog.git // 创建一个裸露的仓库<br><span class="hljs-built_in">cd</span> blog.git/hooks<br>vi post-receive // 创建 hook 钩子函数，输入了内容如下<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">git --work-tree=/home/git/projects/blog --git-dir=/home/git/repos/blog.git checkout -f</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br>git --work-tree=/home/git/projects/blog --git-dir=/home/git/repos/blog.git checkout -f<br></code></pre></td></tr></table></figure>
 
 <p>添加完毕后修改权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x post-receive</span><br><span class="line"><span class="built_in">exit</span> // 退出到 root 登录</span><br><span class="line">chown -R git:git /home/git/repos/blog.git // 添加权限</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">chmod +x post-receive<br><span class="hljs-built_in">exit</span> // 退出到 root 登录<br>chown -R git:git /home/git/repos/blog.git // 添加权限<br></code></pre></td></tr></table></figure>
 
 <ol start="4">
 <li>测试<code>git仓库</code>是否可用，另找空白文件夹</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@server_ip:/home/git/repos/blog.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> git@server_ip:/home/git/repos/blog.git<br></code></pre></td></tr></table></figure>
 
 <p>如果能把空仓库拉下来，就说明 git 仓库搭建成功了</p>
 <p><a href="hexo-to-server/git-clone.jpg" title="git仓库测试" class="gallery-item"><img src="hexo-to-server/git-clone.jpg" alt="git仓库测试"></a></p>
 <ol start="5">
 <li>建立<code>ssh</code>信任关系，在<strong>本地电脑</strong></li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i C:/Users/yourname/.ssh/id_rsa.pub git@server_ip</span><br><span class="line">ssh git@server_ip // 测试能否登录</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-copy-id -i C:/Users/yourname/.ssh/id_rsa.pub git@server_ip<br>ssh git@server_ip // 测试能否登录<br></code></pre></td></tr></table></figure>
 
 <p><strong>注</strong>：此时的 ssh 登录 git 用户不需要密码！否则就<strong>有错</strong>，请仔细重复步骤 3-5</p>
 <ol start="6">
 <li>为了安全起见禁用 git 用户的 shell 登录权限，从而只能用 git clone，git push 等登录</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells // 查看 git-shell 是否在登录方式里面</span><br><span class="line"><span class="built_in">which</span> git-shell // 查看是否安装</span><br><span class="line">vi /etc/shells</span><br><span class="line">添加上2步显示出来的路劲，通常在 /usr/bin/git-shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">cat /etc/shells // 查看 git-shell 是否在登录方式里面<br><span class="hljs-built_in">which</span> git-shell // 查看是否安装<br>vi /etc/shells<br>添加上2步显示出来的路劲，通常在 /usr/bin/git-shell<br></code></pre></td></tr></table></figure>
 
 <p>修改<code>/etc/passwd</code>中的权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 将原来的</span><br><span class="line">git:x:1000:1000::/home/git:/bin/bash</span><br><span class="line"></span><br><span class="line">// 修改为</span><br><span class="line">git:x:1000:1000:,,,:/home/git:/usr/bin/git-shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">// 将原来的<br>git:x:1000:1000::/home/git:/bin/bash<br><br>// 修改为<br>git:x:1000:1000:,,,:/home/git:/usr/bin/git-shell<br></code></pre></td></tr></table></figure>
 
 <h3 id="搭建nginx服务器"><a href="#搭建nginx服务器" class="headerlink" title="搭建nginx服务器"></a>搭建<code>nginx</code>服务器</h3><ol>
 <li>下载并安装<code>nginx</code></li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">wget http://nginx.org/download/nginx-1.15.2.tar.gz</span><br><span class="line">tar xzvf nginx-1.15.2.tar.gz</span><br><span class="line"><span class="built_in">cd</span> nginx-1.15.2</span><br><span class="line">./configure // 如果后面还想要配置 SSL 协议，就执行后面一句！</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/nginx --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_realip_module</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="built_in">alias</span> nginx=<span class="string">&#x27;/usr/local/nginx/sbin/nginx&#x27;</span> // 为 nginx 取别名，后面可直接用</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span>/src<br>wget http://nginx.org/download/nginx-1.15.2.tar.gz<br>tar xzvf nginx-1.15.2.tar.gz<br><span class="hljs-built_in">cd</span> nginx-1.15.2<br>./configure // 如果后面还想要配置 SSL 协议，就执行后面一句！<br>./configure --prefix=/usr/<span class="hljs-built_in">local</span>/nginx --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_realip_module<br>make &amp;&amp; make install<br><span class="hljs-built_in">alias</span> nginx=<span class="hljs-string">&#x27;/usr/local/nginx/sbin/nginx&#x27;</span> // 为 nginx 取别名，后面可直接用<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>配置<code>nginx</code>文件</li>
 </ol>
 <p>先启动是否安装成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx // 直接来！浏览器查看 server_ip，默认是 80 端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nginx // 直接来！浏览器查看 server_ip，默认是 80 端口<br></code></pre></td></tr></table></figure>
 
 <p>修改配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop // 先停止nginx</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/nginx/conf</span><br><span class="line">vi nginx.conf</span><br><span class="line">修改 root 解析路径，如下图</span><br><span class="line">同时将 user 改为 root 如下图，不然nginx无法访问 /home/git/project/blog</span><br><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">nginx -s stop // 先停止nginx<br><span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span>/nginx/conf<br>vi nginx.conf<br>修改 root 解析路径，如下图<br>同时将 user 改为 root 如下图，不然nginx无法访问 /home/git/project/blog<br>nginx -s reload<br></code></pre></td></tr></table></figure>
 
 <p><a href="hexo-to-server/nginx-conf.jpg" title="修改nginx配置" class="gallery-item"><img src="hexo-to-server/nginx-conf.jpg" alt="修改nginx配置"></a></p>
 <p><a href="hexo-to-server/nginx-user.jpg" title="修改nginx user" class="gallery-item"><img src="hexo-to-server/nginx-user.jpg" alt="修改nginx user"></a></p>
@@ -332,12 +332,12 @@
 <ol start="2">
 <li>在 package.json 中添加 npm 脚本</li>
 </ol>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">  <span class="attr">&quot;deploy&quot;</span>: <span class="string">&quot;hexo clean &amp;&amp; hexo g -d&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;start&quot;</span>: <span class="string">&quot;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&quot;</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-string">&quot;scripts&quot;</span>: &#123;<br>  <span class="hljs-attr">&quot;deploy&quot;</span>: <span class="hljs-string">&quot;hexo clean &amp;&amp; hexo g -d&quot;</span>,<br>  <span class="hljs-attr">&quot;start&quot;</span>: <span class="hljs-string">&quot;hexo clean &amp;&amp; hexo g &amp;&amp; hexo s&quot;</span><br>&#125;,<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>链接！这下在本地调试就用<code>npm start</code>，调试好了就上传到服务器，美滋滋~快通过你的服务器 ip 访问吧</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run deploy</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run deploy<br></code></pre></td></tr></table></figure>
 
 </div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
         var options = {
@@ -431,7 +431,7 @@
 &lt;/ol&gt;
 &lt;p&gt;&lt;a href=&#34;hexo-to-server/node-path.jpg&#34; title=&#34;node更换路径&#34; class=&#34;gallery-item&#34;&gt;&lt;img src=&#34;hexo-to-server/node-path.jpg&#34; alt=&#34;node更换路径&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;打开&lt;code&gt;cmd&lt;/code&gt;查看&lt;code&gt;node&lt;/code&gt;安装情况&lt;/p&gt;
-&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;node -v&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;npm -v&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;node -v&lt;br&gt;npm -v&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/05/22/hexo-to-server/&t=hexo to your server"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
