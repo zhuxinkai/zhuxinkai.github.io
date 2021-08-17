@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="基于智慧安全3.0的零信任实践落地">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/themes/anquanniu/images/aqniu-logo.svg">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image001-15-1024x624.png">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image002-1-1024x551.png">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image003-10-1024x565.png">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image004-1024x576.png">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image005-13-1024x452.png">
+<meta property="og:image" content="https://www.aqniu.com/wp-content/uploads/2021/08/image006-1024x631.png">
+<meta property="article:published_time" content="2021-08-17T07:53:01.000Z">
+<meta property="article:modified_time" content="2021-08-17T07:53:01.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="信息安全管理理念">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.aqniu.com/wp-content/themes/anquanniu/images/aqniu-logo.svg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>基于智慧安全3.0的零信任实践落地</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/08/17/%E9%AB%98%E6%95%88%E6%BC%8F%E6%B4%9E%E7%AE%A1%E7%90%86%E7%9A%84%E5%85%AD%E4%B8%AA%E9%94%A6%E5%9B%8A/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&text=基于智慧安全3.0的零信任实践落地"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&is_video=false&description=基于智慧安全3.0的零信任实践落地"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于智慧安全3.0的零信任实践落地&body=Check out this article: https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&name=基于智慧安全3.0的零信任实践落地&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&t=基于智慧安全3.0的零信任实践落地"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        基于智慧安全3.0的零信任实践落地
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-17T07:53:01.000Z" itemprop="datePublished">2021-08-17</time>
+        
+        (Updated: <time datetime="2021-08-17T07:53:01.000Z" itemprop="dateModified">2021-08-17</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%90%86%E5%BF%B5/" rel="tag">信息安全管理理念</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<h1 id="转自："><a href="#转自：" class="headerlink" title="转自："></a>转自：</h1><p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/themes/anquanniu/images/aqniu-logo.svg" class="gallery-item"><img src="https://www.aqniu.com/wp-content/themes/anquanniu/images/aqniu-logo.svg"></a><br><a target="_blank" rel="noopener" href="https://www.aqniu.com/industry/76452.html">https://www.aqniu.com/industry/76452.html</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://www.aqniu.com/vip/nsfocus">绿盟科技</a>星期二, 八月 10, 2021</p>
+<p>随着新基建和数字经济的加速建设，5G、云计算、大数据、人工智能等新技术、新应用不断深入发展， 网络安全正面临恶意程序样本泛滥、APT攻击持续演进、0-day漏洞等前所未有的挑战。同时，国家高度重视网络安全风险，《网络安全法》、《数据安全法》陆续出台，网络安全在IT架构中的分量日益加重。种种形势表明，安全已不只是合规的要求，需要更多的考虑业务全流程保障要求，从体系化角度去进行安全建设。</p>
+<p>2021年，绿盟科技提出“智慧安全3.0”新战略，要求以体系化建设为指引，构建“全场景、可信任、实战化”的安全运营能力，达到“全面防护，智能分析，自动响应”的防护效果。“智慧安全3.0”将安全理念扩展到整个网络空间，并融入新的安全要素。“可信任”作为安全要素之一，提出安全建设要从业务视角出发，融入零信任思想，为用户构建访问信任模型，实现对用户业务环境的可信任保障。</p>
+<p><strong>智慧安全3.0下的零信任</strong></p>
+<p>零信任思想落地实践主要基于SDP、IAM、MSG等技术，在访问主体到访问客体之间，建立业务平面的安全访问通道，将控制平面零信任分析和控制平台作为零信任大脑，结合终端安全管理、统一身份认证等功能，构建多环节信任验证与访问控制、智能分析与风险识别、动态决策响应等能力。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image001-15-1024x624.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image001-15-1024x624.png"></a></p>
+<p>1、<strong>多环节信任验证与访问控制</strong></p>
+<p>零信任体系默认网络内部和外部的主体、客体均不可信，需要基于认证和授权动态，重构业务访问控制的信任基础。在访问过程中的各个环节，对终端、用户、应用、API的身份进行多种形式验证，结合业务场景及业务敏感程度，提供多层级可选的控制粒度。通过在每个阶段嵌入对应的安全访问控制策略执行点，实现应用和服务的动态控制，保证安全访问控制策略的有效实施。</p>
+<p>2、<strong>智能分析与风险识别</strong></p>
+<p>在零信任架构中，主体与客体之间的访问认证不是一次性的，需要进行持续评估，借助大数据引擎的强大算法，基于多维特征聚类的风险和威胁识别方法，通过对终端、网络和服务器端的访问全路径进行威胁监控，汇聚终端环境、访问频率、认证授权、攻击流量、越权访问等风险数据，智能化完成用户建模和行为分析，基于信任评估模型，识别安全风险。</p>
+<p>3、<strong>动态策略自动化响应</strong></p>
+<p>针对在零信任网络各对象动态变化的环境，基于零信任的策略控制引擎下发指令，从而确保在不断变化的过程中，始终具有可信条件的对象才能访问受控允许的资源。在整个访问过程中，依靠零信任的评估引擎和策略控制引擎，形成威胁研判的信任链，根据信任的紧迫度及危险程度等条件，按照响应优先级调用微场景化的通用Playbook执行脚本，实现对威胁的全局封堵、权限调整及用户二次认证等响应过程。</p>
+<p>4、<strong>安全联动、打造一体化纵深防御</strong></p>
+<p>零信任是一种安全理念，是对现有安全能力的一种完善和补充。绿盟科技“智慧安全3. 0”正是结合这种理念，实现安全体系的全面升级。“智慧安全3.0”从顶层设计开始定义安全体系并规划安全建设，已不只是考虑合规的要求，而是更多的考虑业务全流程保障要求，从体系化角度进行安全建设。“全场景”以全栈安全产品支撑解决方案，适应不同用户场景的需要，针对用户网络建设具备自适应攻击防护能力的纵深防御体系。“可信任”理念结合零信任模型，支撑用户构建可信任的能力，针对用户业务环境打造具备自适应访问保护能力的可信认证授权体系。最后通过基于“实战化“的安全运营体系，形成自适应攻击防护以及自适应访问保护能力的协同闭环机制，构建按需调度的安全能力。</p>
+<p><strong>零信任场景化落地实践</strong></p>
+<p>绿盟科技在研究零信任理论体系的同时，也很重视落地应用实践，于2014年启动零信任关键技术研究，2019年陆续发布多款关键产品，现在整体解决方案已在各个行业落地，对用户业务环境进行可信任保障。</p>
+<p>1、<strong>暴露面隐藏场景</strong></p>
+<p>在一些日常应用场景中，需要将内网的应用暴露到公网，并在公网进行访问操作，增加业务系统的安全风险。零信任架构可以将应用隐藏起来，基于SDP技术有效防止攻击者对企业应用的探测、扫描、渗透测试等，减少企业对外的攻击暴露面。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image002-1-1024x551.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image002-1-1024x551.png"></a></p>
+<p>2、<strong>远程办公场景</strong></p>
+<p>针对远程办公场景，绿盟科技“零信任”可以解决VPN访问形式线路不稳、存在横向移动、权限粗放等弊端。利用零信任架构的特点，用户无论是在企业内网还是互联网，都是不被信任的，必须先通过零信任体系认证，根据用户权限才能访问后台应用，最大限度地保证用户安全，便捷地访问企业内网应用。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image003-10-1024x565.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image003-10-1024x565.png"></a></p>
+<p>3、<strong>远程运维访问管理</strong></p>
+<p>在本地及远程运维场景中，运维人员管理不同应用时需登录不同堡垒机，而不同堡垒机存在安全认证策略不统一，没有统一入口，运维管理成本高等问题。零信任架构模型可以统一身份运维账号、统一入口、统一登录，零信任体系和堡垒机之间的联动也能对运维帐户进行动态管理，提高运维安全性和管理效率。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image004-1024x576.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image004-1024x576.png"></a></p>
+<p><strong>4、全方位API防护场景</strong></p>
+<p>针对API业务暴露公网会被黑产未授权调用，生成钓鱼路径，受害者报警等问题，零信任架构可以提供API安全代理与业务隐藏、调用者身份认证、权限控制等能力，实现对API场景的全方位安全防护。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image005-13-1024x452.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image005-13-1024x452.png"></a></p>
+<p>5、<strong>SASE云上零信任安全</strong></p>
+<p>随着企业数字化转型的深入发展，企业业务上云成为常态，针对业务上云之后的业务暴露面大、终端管控难、认证方式简单等问题，零信任架构可以以SD-WAN网络为基础，通过SDP、VPN等多种方式，快捷安全接入SASE，以零信任访问控制为核心，结合终端安全，满足高效运维运营、远程办公效率优化等场景需求。</p>
+<p><a target="_blank" rel="noopener" href="https://www.aqniu.com/wp-content/uploads/2021/08/image006-1024x631.png" class="gallery-item"><img src="https://www.aqniu.com/wp-content/uploads/2021/08/image006-1024x631.png"></a></p>
+<p>面对数字化转型时代的网络安全挑战，用户可以基于“智慧安全3.0”蓝图，逐步将业务安全与零信任安全架构相融合，以此来构建完备的安全防护体系。绿盟科技也将凭借二十一年的网络安全技术能力积累，持续为用户业务的顺畅运行保驾护航。</p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'blb6PJsThCi2aLC84uljjQzT-gzGzoHsz',
+      app_key: '1PBJebm7VF0AiFpsf6Hhapdv',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&text=基于智慧安全3.0的零信任实践落地"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&is_video=false&description=基于智慧安全3.0的零信任实践落地"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于智慧安全3.0的零信任实践落地&body=Check out this article: https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&title=基于智慧安全3.0的零信任实践落地"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&name=基于智慧安全3.0的零信任实践落地&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/08/17/%E5%9F%BA%E4%BA%8E%E6%99%BA%E6%85%A7%E5%AE%89%E5%85%A83.0%E7%9A%84%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%9E%E8%B7%B5%E8%90%BD%E5%9C%B0/&t=基于智慧安全3.0的零信任实践落地"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
