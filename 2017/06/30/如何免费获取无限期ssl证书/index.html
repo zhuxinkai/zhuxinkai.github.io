@@ -163,7 +163,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>自己做了一个博客网站，hexo ,加 相应的模板。几经修改，申请备案了域名。 buhuixiu.com. 但是上线的时候发现，浏览器默认跑https，而相应的nginx 需要配置证书。。如果自己生成的证书，将会提示证书不可信。 如果取买，动辄上千一年，比我自己买的VPS还贵。如果手动取申请，也只能免费3个月，3个月后又需要去手动申请。麻烦。有没有好点的解决办法？</p>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言<p>自己做了一个博客网站，hexo ,加 相应的模板。几经修改，申请备案了域名。 buhuixiu.com. 但是上线的时候发现，浏览器默认跑https，而相应的nginx 需要配置证书。。如果自己生成的证书，将会提示证书不可信。 如果取买，动辄上千一年，比我自己买的VPS还贵。如果手动取申请，也只能免费3个月，3个月后又需要去手动申请。麻烦。有没有好点的解决办法？</p>
 <h4 id="解决办法-将申请三个月免费证书的动作计划执行。"><a href="#解决办法-将申请三个月免费证书的动作计划执行。" class="headerlink" title="解决办法-将申请三个月免费证书的动作计划执行。"></a>解决办法-将申请三个月免费证书的动作计划执行。</h4><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>centos:   (centos linux release 7.2.1511)<br>nginx:   (nginx version : nginx/1.18.0)<br>nginx 安装路径 :    /usr/local/nginx<br>EXpressJS应用<br>域名： <a href="http://www.buhuixiu.com/">www.buhuixiu.com</a></p>
 <h4 id="安装CertBot"><a href="#安装CertBot" class="headerlink" title="安装CertBot"></a>安装CertBot</h4><p>命令行运行，键入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum install epel-release<br>sudo yum install certbot<br><br><br></code></pre></td></tr></table></figure>

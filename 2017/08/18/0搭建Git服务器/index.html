@@ -83,7 +83,7 @@
         <li><a class="icon" aria-label="上一篇 " href="/2019/07/27/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B0KALI-Linux/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇 " href="/2017/08/18/Django%E5%85%A5%E9%97%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇 " href="/2017/08/18/Django-dev%E7%8E%AF%E5%A2%83/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -105,14 +105,14 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=0 Git服务器安装&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;p&gt;&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=0 Git服务器安装&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34;&gt;&lt;div class=&#34;.article-gallery&#34; &lt;p&gt;&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000&#34;&gt;原文&lt;/a&gt;&lt;p&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;  搭建Git服务器非常简单，通常10分钟即可完成；&lt;/li&gt;
 &lt;li&gt;  要方便管理公钥，用Gitosis；&lt;/li&gt;
 &lt;li&gt;  要像SVN那样变态地控制权限，用Gitolite。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;假设你已经有sudo权限的用户账号，下面，正式开始安装。&lt;/p&gt;
-&lt;h5 id=&#34;第一步，安装git：&#34;&gt;&lt;a href=&#34;#第一步，安装git：&#34; class=&#34;headerlink&#34; title=&#34;第一步，安装git：&#34;&gt;&lt;/a&gt;第一步，安装git：&lt;/h5&gt;&lt;figure class=&#34;highlight routeros&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs routeros&#34;&gt;$ sudo apt-&lt;span class=&#34;hljs-builtin-name&#34;&gt;get&lt;/span&gt; install git&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+&lt;h5 id=&#34;第一步，安装git：&#34;&gt;&lt;a href=&#34;#第一步，安装git：&#34; class=&#34;headerlink&#34; title=&#34;第一步，安装git：&#34;&gt;&lt;/a&gt;第一步，安装git：&lt;/h5&gt;&lt;figure class=&#34;highlight routeros&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs routeros&#34;&gt;$ sudo apt-&lt;span class=&#34;hljs-builtin-name&#34;&gt;get&lt;/span&gt; install git&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/div&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=0 Git服务器安装"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
@@ -164,7 +164,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000">原文</a></p>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000">原文</a><p></p>
 <ul>
 <li>  搭建Git服务器非常简单，通常10分钟即可完成；</li>
 <li>  要方便管理公钥，用Gitosis；</li>
@@ -278,14 +278,14 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=0 Git服务器安装"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=0 Git服务器安装&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34; /&gt;&lt;div class=&#34;.article-gallery&#34;&lt;p&gt;&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+  <li><a class="icon" target="_blank" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=0 Git服务器安装&description=&lt;link rel=&#34;stylesheet&#34; type=&#34;text/css&#34; href=&#34;https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css&#34;&gt;&lt;div class=&#34;.article-gallery&#34; &lt;p&gt;&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000&#34;&gt;原文&lt;/a&gt;&lt;p&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;  搭建Git服务器非常简单，通常10分钟即可完成；&lt;/li&gt;
 &lt;li&gt;  要方便管理公钥，用Gitosis；&lt;/li&gt;
 &lt;li&gt;  要像SVN那样变态地控制权限，用Gitolite。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;假设你已经有sudo权限的用户账号，下面，正式开始安装。&lt;/p&gt;
-&lt;h5 id=&#34;第一步，安装git：&#34;&gt;&lt;a href=&#34;#第一步，安装git：&#34; class=&#34;headerlink&#34; title=&#34;第一步，安装git：&#34;&gt;&lt;/a&gt;第一步，安装git：&lt;/h5&gt;&lt;figure class=&#34;highlight routeros&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs routeros&#34;&gt;$ sudo apt-&lt;span class=&#34;hljs-builtin-name&#34;&gt;get&lt;/span&gt; install git&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+&lt;h5 id=&#34;第一步，安装git：&#34;&gt;&lt;a href=&#34;#第一步，安装git：&#34; class=&#34;headerlink&#34; title=&#34;第一步，安装git：&#34;&gt;&lt;/a&gt;第一步，安装git：&lt;/h5&gt;&lt;figure class=&#34;highlight routeros&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs routeros&#34;&gt;$ sudo apt-&lt;span class=&#34;hljs-builtin-name&#34;&gt;get&lt;/span&gt; install git&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/div&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2017/08/18/0%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=0 Git服务器安装"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
