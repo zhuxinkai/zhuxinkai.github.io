@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress%E5%AE%89%E5%85%A8%E6%80%A7%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">Ingress安全性描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress-%E6%8B%93%E6%89%91"><span class="toc-number">2.</span> <span class="toc-text">Ingress 拓扑</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ingress"><span class="toc-number">1.</span> <span class="toc-text">Ingress?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress%E5%AE%89%E5%85%A8%E6%80%A7%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Ingress安全性描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress-%E6%8B%93%E6%89%91"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Ingress 拓扑</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -156,7 +156,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <h1 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress?"></a>Ingress?<p><font color="green" siez="2">根据IT领域存在即意义的尿性，有了service 对于Pod的负载均衡后，为什么还搞一个Ingress 做负载均衡？个人理解：</font></p>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p><font color="yellow" size="2">相关内容部分来自Kubernetes.io ,如有侵权请联系本人，或在此站点留言，谢谢</font><p></p>
+<h1 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress?"></a>Ingress?</h1><p><font color="green" siez="2">根据IT领域存在即意义的尿性，有了service 对于Pod的负载均衡后，为什么还搞一个Ingress 做负载均衡？个人理解：</font></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">1. service 实现的是4层的负载均衡，而 Ingress 实现的是7层负载均衡。<br>2. 唉，其实第一点就讲完了。<br>3. 废话下，Ingress 在7层可以干很多事情。 基于URL做不同Service 转发  【微服务应用场景】<br>4. 终止 SSL/TLS 【Service层不需要配SSL证书】&#123;省事&#125;<br>5. 提供基于名称的虚拟主机 【来自kubernets.io 我也没太清楚是啥意思，后面补充。】<br></code></pre></td></tr></table></figure>
 <h4 id="Ingress安全性描述："><a href="#Ingress安全性描述：" class="headerlink" title="Ingress安全性描述："></a>Ingress安全性描述：</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html">Ingress 不会公开任意端口或协议。 将 HTTP 和 HTTPS 以外的服务公开到 Internet 时，<br>通常使用 Service.Type=NodePort 或 Service.Type=LoadBalancer 类型的服务。<br>也就是说Ingress在Service 的基础上不会引入新的脆弱性问题。【源码引入的安全性漏洞除外】<br><br></code></pre></td></tr></table></figure>
 <h4 id="Ingress-拓扑"><a href="#Ingress-拓扑" class="headerlink" title="Ingress 拓扑"></a>Ingress 拓扑</h4><p><a href="/Ingress/20211109045613919.png" class="gallery-item"><img src="/2021/11/19/Ingress/20211109045613919.png"></a></p>
@@ -231,7 +232,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress%E5%AE%89%E5%85%A8%E6%80%A7%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">Ingress安全性描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress-%E6%8B%93%E6%89%91"><span class="toc-number">2.</span> <span class="toc-text">Ingress 拓扑</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ingress"><span class="toc-number">1.</span> <span class="toc-text">Ingress?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress%E5%AE%89%E5%85%A8%E6%80%A7%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Ingress安全性描述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ingress-%E6%8B%93%E6%89%91"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Ingress 拓扑</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
