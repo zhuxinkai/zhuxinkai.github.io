@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="PVC in StatefulSet">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-15T13:58:25.000Z">
+<meta property="article:modified_time" content="2021-11-15T13:58:25.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>PVC in StatefulSet</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/11/15/Persistent%20Volume/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&text=PVC in StatefulSet"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&is_video=false&description=PVC in StatefulSet"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PVC in StatefulSet&body=Check out this article: https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&name=PVC in StatefulSet&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&t=PVC in StatefulSet"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BAStatefulSet"><span class="toc-number">1.</span> <span class="toc-text">1.1 创建StatefulSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-StatefulSet-%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E6%9C%BA%E5%88%B6%E3%80%82"><span class="toc-number">2.</span> <span class="toc-text">1.2 StatefulSet 的顺序创建和删除机制。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E4%BD%BF%E7%94%A8%E7%A8%B3%E5%AE%9A%E7%9A%84%E7%BD%91%E7%BB%9C%E6%A0%87%E8%AF%86%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">1.3 使用稳定的网络标识。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%86%99%E5%85%A5%E7%A8%B3%E5%AE%9A%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">4.</span> <span class="toc-text">1.4 写入稳定的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E5%88%9B%E5%BB%BAnfs-%E3%80%90%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1%E5%9C%A8%E6%89%80%E6%9C%89%E7%9A%84master-%E5%8F%8Anode-%E8%8A%82%E7%82%B9%E5%AE%89%E8%A3%85%E3%80%91"><span class="toc-number">4.1.</span> <span class="toc-text">1.4.1 创建nfs 【相关服务在所有的master 及node 节点安装】</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E6%8C%82%E8%BD%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">4.2.</span> <span class="toc-text">1.4.2 挂载测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3-pv-ymal%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text">1.4.3 pv ymal文件</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%89%A9%E5%AE%B9-%E7%BC%A9%E5%AE%B9-StatefulSet"><span class="toc-number"></span> <span class="toc-text">2. 扩容&#x2F;缩容  StatefulSet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%9B%B4%E6%96%B0StatefulSet"><span class="toc-number"></span> <span class="toc-text">3.更新StatefulSet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Rolling-Update-%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">3.1 Rolling Update 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%9B%B4%E6%96%B0%EF%BC%8C%E6%94%B9%E5%8F%98%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="toc-number">2.</span> <span class="toc-text">3.2 更新，改变容器镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%88%86%E6%AE%B5%E6%9B%B4%E6%96%B0"><span class="toc-number">3.</span> <span class="toc-text">3.3 分段更新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E6%B5%8B%E8%AF%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.3.1 测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83"><span class="toc-number">4.</span> <span class="toc-text">3.4 灰度发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%88%86%E9%98%B6%E6%AE%B5%E5%8F%91%E5%B8%83"><span class="toc-number">5.</span> <span class="toc-text">3.5 分阶段发布</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%88%A0%E9%99%A4-StatefulSet"><span class="toc-number"></span> <span class="toc-text">4. 删除 StatefulSet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%9D%9E%E7%BA%A7%E8%81%94%E5%88%A0%E9%99%A4"><span class="toc-number">1.</span> <span class="toc-text">4.1 非级联删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%BA%A7%E8%81%94%E5%88%A0%E9%99%A4"><span class="toc-number">2.</span> <span class="toc-text">4.2 级联删除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pod%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-number"></span> <span class="toc-text">Pod管理策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%85%E7%90%86%E7%8E%B0%E5%9C%BA"><span class="toc-number"></span> <span class="toc-text">清理现场</span></a>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PVC in StatefulSet
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-11-15T13:58:25.000Z" itemprop="datePublished">2021-11-15</time>
+        
+        (Updated: <time datetime="2021-11-15T13:58:25.000Z" itemprop="dateModified">2021-11-15</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/k8s/" rel="tag">k8s</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <h1 id="1-StatefulSet-概念及特性"><a href="#1-StatefulSet-概念及特性" class="headerlink" title="1.StatefulSet 概念及特性"></a>1.StatefulSet 概念及特性<h3 id="1-1-创建StatefulSet"><a href="#1-1-创建StatefulSet" class="headerlink" title="1.1 创建StatefulSet"></a>1.1 创建StatefulSet</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 它创建了一个 Headless Service nginx 用来发布 StatefulSet web 中的 Pod 的 IP 地址。--&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">ports:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br>  <span class="hljs-attr">clusterIP:</span> <span class="hljs-string">None</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">StatefulSet</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">serviceName:</span> <span class="hljs-string">&quot;nginx&quot;</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">2</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">nginx</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">k8s.gcr.io/nginx-slim:0.8</span><br>        <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">80</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br>        <span class="hljs-attr">volumeMounts:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">www</span><br>          <span class="hljs-attr">mountPath:</span> <span class="hljs-string">/usr/share/nginx/html</span><br>  <span class="hljs-attr">volumeClaimTemplates:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">name:</span> <span class="hljs-string">www</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">accessModes:</span> [ <span class="hljs-string">&quot;ReadWriteOnce&quot;</span> ]<br>      <span class="hljs-attr">resources:</span><br>        <span class="hljs-attr">requests:</span><br>          <span class="hljs-attr">storage:</span> <span class="hljs-string">1Gi</span><br></code></pre></td></tr></table></figure>
+<p>![](/PVC in StatefulSet/20211115100505453.png)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spec:</span><br>     <span class="hljs-attr">accessModes:</span> [ <span class="hljs-string">&quot;ReadWriteOnce&quot;</span> ]<br>     <span class="hljs-comment"># 可以指定存储类型PV为nfs</span><br>     <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">&quot;nfs&quot;</span><br>     <span class="hljs-attr">resources:</span><br>       <span class="hljs-attr">requests:</span><br>         <span class="hljs-attr">storage:</span> <span class="hljs-string">1Gi</span><br><br><br></code></pre></td></tr></table></figure>
+<h3 id="1-2-StatefulSet-的顺序创建和删除机制。"><a href="#1-2-StatefulSet-的顺序创建和删除机制。" class="headerlink" title="1.2 StatefulSet 的顺序创建和删除机制。"></a>1.2 StatefulSet 的顺序创建和删除机制。</h3><pre><code>NAME      READY     STATUS    RESTARTS   AGE
+web-0     0/1       Pending   0          0s
+web-0     0/1       Pending   0         0s
+web-0     0/1       ContainerCreating   0         0s
+web-0     1/1       Running   0         19s
+web-1     0/1       Pending   0         0s
+web-1     0/1       Pending   0         0s
+web-1     0/1       ContainerCreating   0         0s
+web-1     1/1       Running   0         18s
+</code></pre>
+<p>请注意在 web-0 Pod 处于 Running和Ready 状态后 web-1 Pod 才会被启动</p>
+<h3 id="1-3-使用稳定的网络标识。"><a href="#1-3-使用稳定的网络标识。" class="headerlink" title="1.3 使用稳定的网络标识。"></a>1.3 使用稳定的网络标识。</h3><pre><code>[root@k8s1 ~]# kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm
+If you don&#39;t see a command prompt, try pressing enter.
+/ # nslookup web-0.nginx
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      web-0.nginx
+Address 1: 172.16.219.45 web-0.nginx.default.svc.cluster.local
+/ # nslookup web-1.nginx
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      web-1.nginx
+Address 1: 172.16.219.47 web-1.nginx.default.svc.cluster.local
+/ # nslookup web-2.nginx
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      web-2.nginx
+Address 1: 172.16.219.48 web-2.nginx.default.svc.cluster.local
+/ # 
+</code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!--Pod 的序号、主机名、SRV 条目和记录名称没有改变，但和 Pod 相关联的 IP 地址可能发生了改变。 在本教程中使用的集群中它们</span><br><span class="hljs-comment">就改变了。这就是为什么不要在其他应用中使用 StatefulSet 中的 Pod 的 IP 地址进行连接，这点很重要。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">如果你需要查找并连接一个 StatefulSet 的活动成员，你应该查询 Headless Service 的 CNAME。 和 CNAME 相关联的 SRV 记录只会</span><br><span class="hljs-comment">包含 StatefulSet 中处于 Running 和 Ready 状态的 Pod。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">如果你的应用已经实现了用于测试 liveness 和 readiness 的连接逻辑，你可以使用 Pod 的 SRV 记录（web-</span><br><span class="hljs-comment">0.nginx.default.svc.cluster.local， web-1.nginx.default.svc.cluster.local）。因为他们是稳定的，并且当你的 Pod 的状</span><br><span class="hljs-comment">态变为 Running 和 Ready 时，你的应用就能够发现它们的地址。--&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="1-4-写入稳定的存储"><a href="#1-4-写入稳定的存储" class="headerlink" title="1.4 写入稳定的存储"></a>1.4 写入稳定的存储</h3><p>![](/PVC in StatefulSet/20211115102425637.png)</p>
+<h4 id="1-4-1-创建nfs-【相关服务在所有的master-及node-节点安装】"><a href="#1-4-1-创建nfs-【相关服务在所有的master-及node-节点安装】" class="headerlink" title="1.4.1 创建nfs 【相关服务在所有的master 及node 节点安装】"></a>1.4.1 创建nfs 【相关服务在所有的master 及node 节点安装】</h4><pre><code># 创建挂载目录
+cd ~
+cd data/
+mkdir www-content
+cd www-content/
+pwd
+
+# 安装软件
+yum install nfs-utils
+yum install rpcbind
+
+# 配置开机启动
+chkconfig nfs on
+chkconfig rpcbind on
+
+# 启动相关服务
+service rpcbind start
+service nfs start
+
+# 开放防火墙端口
+firewall-cmd --add-port=2049/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --list-ports
+
+# 添加系统配置，添加内容如下：
+vim /etc/exports
+
+# 设置输出目录只读：ro，设置输出目录读写：rw
+# 客户端是指网络中可以访问这个NFS输出目录的计算机：
+#    指定ip地址的主机：192.168.0.200
+#    指定子网中的所有主机：192.168.0.0/24 192.168.0.0/255.255.255.0
+#    指定域名的主机：david.bsmart.cn
+#    指定域中的所有主机：*.bsmart.cn
+#    所有主机：*
+##########
+/root/data/www-content *(rw,async,no_root_squash,no_subtree_check)
+##########
+
+# 刷新配置立即生效
+exportfs -a
+
+# 验证配置内容
+exportfs -rv
+
+# 创建子目录
+cd /root/data/www-content
+mkdir develop
+mkdir product
+
+# 修改目录权限
+cd /root/data
+chmod -R 777 www-content/
+
+# 重启服务
+systemctl restart nfs &amp; systemctl restart rpcbind
+
+# 设置开机自启动
+systemctl enable nfs &amp; systemctl enable rpcbind
+</code></pre>
+<h4 id="1-4-2-挂载测试"><a href="#1-4-2-挂载测试" class="headerlink" title="1.4.2 挂载测试"></a>1.4.2 挂载测试</h4><pre><code># 安装工具 yum install nfs-utils
+# 启动相关服务 systemctl start nfs systemctl enable nfs systemctl status nfs 
+# 创建挂载目录  cd ~ 
+cd data/ 
+mkdir mnt-www-content
+mount -t nfs 192.168.81.129:/nfs2 /data/mnt-www-content
+</code></pre>
+<h4 id="1-4-3-pv-ymal文件"><a href="#1-4-3-pv-ymal文件" class="headerlink" title="1.4.3 pv ymal文件"></a>1.4.3 pv ymal文件</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">pv0003</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">capacity:</span><br>    <span class="hljs-attr">storage:</span> <span class="hljs-string">5Gi</span><br>  <span class="hljs-attr">volumeMode:</span> <span class="hljs-string">Filesystem</span><br>  <span class="hljs-attr">accessModes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Recycle</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">slow</span><br>  <span class="hljs-attr">mountOptions:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">hard</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">nfsvers=4.1</span><br>  <span class="hljs-attr">nfs:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/nfsdata</span><br>    <span class="hljs-attr">server:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.81</span><span class="hljs-number">.129</span><br><br><br><span class="hljs-meta">---</span><br><span class="hljs-meta"></span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">pv0001</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">capacity:</span><br>    <span class="hljs-attr">storage:</span> <span class="hljs-string">3Gi</span><br>  <span class="hljs-attr">volumeMode:</span> <span class="hljs-string">Filesystem</span><br>  <span class="hljs-attr">accessModes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Recycle</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">nfs</span><br>  <span class="hljs-attr">mountOptions:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">hard</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">nfsvers=4.1</span><br>  <span class="hljs-attr">nfs:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/nfs1</span><br>    <span class="hljs-attr">server:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.81</span><span class="hljs-number">.129</span><br><br><br><span class="hljs-meta">---</span><br><span class="hljs-meta"></span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">pv0002</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">capacity:</span><br>    <span class="hljs-attr">storage:</span> <span class="hljs-string">10Gi</span><br>  <span class="hljs-attr">volumeMode:</span> <span class="hljs-string">Filesystem</span><br>  <span class="hljs-attr">accessModes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Recycle</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">nfs</span><br>  <span class="hljs-attr">mountOptions:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">hard</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">nfsvers=4.1</span><br>  <span class="hljs-attr">nfs:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/nfs2</span><br>    <span class="hljs-attr">server:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.81</span><span class="hljs-number">.129</span><br><span class="hljs-meta">---</span><br><span class="hljs-meta"></span><br><span class="hljs-meta"></span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">pv0004</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">capacity:</span><br>    <span class="hljs-attr">storage:</span> <span class="hljs-string">8Gi</span><br>  <span class="hljs-attr">volumeMode:</span> <span class="hljs-string">Filesystem</span><br>  <span class="hljs-attr">accessModes:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Recycle</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">nfs</span><br>  <span class="hljs-attr">mountOptions:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">hard</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">nfsvers=4.1</span><br>  <span class="hljs-attr">nfs:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/nfs3</span><br>    <span class="hljs-attr">server:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.81</span><span class="hljs-number">.129</span><br><br></code></pre></td></tr></table></figure>
+<p>![](/PVC in StatefulSet/20211115103501899.png)</p>
+<h1 id="2-扩容-缩容-StatefulSet"><a href="#2-扩容-缩容-StatefulSet" class="headerlink" title="2. 扩容/缩容  StatefulSet"></a>2. 扩容/缩容  StatefulSet</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl scale sts web --replicas=5<br></code></pre></td></tr></table></figure>
+<p>![](/PVC in StatefulSet/20211115104742223.png)</p>
+<h1 id="3-更新StatefulSet"><a href="#3-更新StatefulSet" class="headerlink" title="3.更新StatefulSet"></a>3.更新StatefulSet</h1><h3 id="3-1-Rolling-Update-策略"><a href="#3-1-Rolling-Update-策略" class="headerlink" title="3.1 Rolling Update 策略"></a>3.1 Rolling Update 策略</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl patch statefulset web -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;updateStrategy&quot;:&#123;&quot;type&quot;:&quot;RollingUpdate&quot;&#125;&#125;&#125;&#x27;<br><br></code></pre></td></tr></table></figure>
+<p>![](/PVC in StatefulSet/20211115105814973.png)</p>
+<h3 id="3-2-更新，改变容器镜像"><a href="#3-2-更新，改变容器镜像" class="headerlink" title="3.2 更新，改变容器镜像"></a>3.2 更新，改变容器镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl patch statefulset web --type=&#x27;json&#x27; -p=&#x27;[&#123;&quot;op&quot;: &quot;replace&quot;, &quot;path&quot;: &quot;/spec/template/spec/containers/0/image&quot;, &quot;value&quot;:&quot;gcr.io/google_containers/nginx-slim:0.8&quot;&#125;]&#x27;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@k8s1 ~]# kubectl patch statefulset web --type=&#x27;json&#x27; -p=&#x27;[&#123;&quot;op&quot;: &quot;replace&quot;, &quot;path&quot;: &quot;/spec/template/spec/containers/0/image&quot;, &quot;value&quot;:&quot;nginx&quot;&#125;]&#x27;<br>statefulset.apps/web patched<br></code></pre></td></tr></table></figure>
+<pre><code>[root@k8s1 ~]# kubectl get pods -w -l app=nginx
+NAME    READY   STATUS    RESTARTS   AGE
+web-0   1/1     Running   0          41s
+web-1   1/1     Running   0          38s
+web-2   1/1     Running   0          36s
+web-2   1/1     Terminating   0          51s
+web-2   1/1     Terminating   0          52s
+web-2   0/1     Terminating   0          52s
+web-2   0/1     Terminating   0          52s
+web-2   0/1     Terminating   0          52s
+web-2   0/1     Pending       0          0s
+web-2   0/1     Pending       0          0s
+web-2   0/1     ContainerCreating   0          0s
+web-2   0/1     ContainerCreating   0          0s
+web-2   1/1     Running             0          2s
+web-1   1/1     Terminating         0          57s
+web-1   1/1     Terminating         0          57s
+web-1   0/1     Terminating         0          58s
+web-1   0/1     Terminating         0          58s
+web-1   0/1     Terminating         0          58s
+web-1   0/1     Pending             0          0s
+web-1   0/1     Pending             0          0s
+web-1   0/1     ContainerCreating   0          0s
+web-1   0/1     ContainerCreating   0          0s
+web-1   1/1     Running             0          2s
+web-0   1/1     Terminating         0          63s
+web-0   1/1     Terminating         0          63s
+web-0   0/1     Terminating         0          64s
+web-0   0/1     Terminating         0          64s
+web-0   0/1     Terminating         0          64s
+web-0   0/1     Pending             0          0s
+web-0   0/1     Pending             0          0s
+web-0   0/1     ContainerCreating   0          0s
+web-0   0/1     ContainerCreating   0          1s
+web-0   1/1     Running             0          2s
+</code></pre>
+<h3 id="3-3-分段更新"><a href="#3-3-分段更新" class="headerlink" title="3.3 分段更新"></a>3.3 分段更新</h3><p>你可以使用 RollingUpdate 更新策略的 <font color="green" size="3">partition </font>参数来分段更新一个 StatefulSet。 分段的更新将会使 StatefulSet 中的其余所有 Pod 保持当前版本的同时仅允许改变 StatefulSet 的 .spec.template。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl patch statefulset web -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;updateStrategy&quot;:&#123;&quot;type&quot;:&quot;RollingUpdate&quot;,&quot;rollingUpdate&quot;:&#123;&quot;partition&quot;:3&#125;&#125;&#125;&#125;&#x27;<br><br>kubectl patch statefulset web --type=&#x27;json&#x27; -p=&#x27;[&#123;&quot;op&quot;: &quot;replace&quot;, &quot;path&quot;: &quot;/spec/template/spec/containers/0/image&quot;, &quot;value&quot;:&quot;k8s.gcr.io/nginx-slim:0.7&quot;&#125;]&#x27;<br><br></code></pre></td></tr></table></figure>
+<h4 id="3-3-1-测试"><a href="#3-3-1-测试" class="headerlink" title="3.3.1 测试"></a>3.3.1 测试</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl delete pod web-2<br>kubectl get pod web-2 --template &#x27;&#123;&#123;range $i, $c := .spec.containers&#125;&#125;&#123;&#123;$c.image&#125;&#125;&#123;&#123;end&#125;&#125;&#x27;<br></code></pre></td></tr></table></figure>
+<font color="green" size="2">
+虽然更新策略是 RollingUpdate，StatefulSet 控制器还是会使用原始的容器恢复 Pod。 这是因为 Pod 的序号比 updateStrategy 指定的 partition 更小 "partition 为3"，所以更新对 web-2 不起作用。</font>
+
+<h3 id="3-4-灰度发布"><a href="#3-4-灰度发布" class="headerlink" title="3.4 灰度发布"></a>3.4 灰度发布</h3><font color="green" size="2">
+你可以通过减少 [上文](https://kubernetes.io/zh/docs/tutorials/stateful-application/basic-stateful-set/#%E5%88%86%E6%AE%B5%E6%9B%B4%E6%96%B0)指定的 `partition` 来进行灰度发布，以此来测试你的程序的改动。
+
+<p>通过 patch 命令修改 StatefulSet 来减少分区。</p></font><p></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl patch statefulset web -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;updateStrategy&quot;:&#123;&quot;type&quot;:&quot;RollingUpdate&quot;,&quot;rollingUpdate&quot;:&#123;&quot;partition&quot;:2&#125;&#125;&#125;&#125;&#x27;<br><span class="hljs-meta">#</span><span class="bash"> partition 从3 减少到了2 ，那么 web-2将受到更新影响。StatefulSet 会自动的更新 web-2 Pod，这是因为 Pod 的序号大于或等于 partition。</span><br></code></pre></td></tr></table></figure>
+<pre><code>NAME      READY     STATUS              RESTARTS   AGE
+web-0     1/1       Running             0          4m
+web-1     1/1       Running             0          4m
+web-2     0/1       ContainerCreating   0          11s
+web-2     1/1       Running   0         18s
+</code></pre>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl delete pod web-1<br>kubectl get pod -l app=nginx -w<br>kubectl get pod web-1 --template &#x27;&#123;&#123;range $i, $c := .spec.containers&#125;&#125;&#123;&#123;$c.image&#125;&#125;&#123;&#123;end&#125;&#125;&#x27;<br><span class="hljs-meta">#</span><span class="bash"> k8s.gcr.io/nginx-slim:0.8</span><br><span class="hljs-meta">#</span><span class="bash"> web-1 被按照原来的配置恢复，因为 Pod 的序号小于分区。当指定了分区时，如果更新了 StatefulSet 的 .spec.template，</span><br><span class="hljs-meta">#</span><span class="bash"> 则所有序号大于或等于分区的 Pod 都将被更新。 如果一个序号小于分区的 Pod 被删除或者终止，它将被按照原来的配置恢复。</span><br></code></pre></td></tr></table></figure>
+<h3 id="3-5-分阶段发布"><a href="#3-5-分阶段发布" class="headerlink" title="3.5 分阶段发布"></a>3.5 分阶段发布</h3> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"> kubectl patch statefulset web -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;updateStrategy&quot;:&#123;&quot;type&quot;:&quot;RollingUpdate&quot;,&quot;rollingUpdate&quot;:&#123;&quot;partition&quot;:0&#125;&#125;&#125;&#125;&#x27;<br><span class="hljs-meta">#</span><span class="bash"> 当 partition : 0时，仅只有Pod 为0 的容器等于或者大于partition .</span><br> kubectl get pod -l app=nginx -w<br></code></pre></td></tr></table></figure>
+<pre><code>NAME      READY     STATUS              RESTARTS   AGE
+web-0     1/1       Running             0          3m
+web-1     0/1       ContainerCreating   0          11s
+web-2     1/1       Running             0          2m
+web-1     1/1       Running   0         18s
+web-0     1/1       Terminating   0         3m
+web-0     1/1       Terminating   0         3m
+web-0     0/1       Terminating   0         3m
+web-0     0/1       Terminating   0         3m
+web-0     0/1       Terminating   0         3m
+web-0     0/1       Terminating   0         3m
+web-0     0/1       Pending   0         0s
+web-0     0/1       Pending   0         0s
+web-0     0/1       ContainerCreating   0         0s
+web-0     1/1       Running   0         3s 
+
+   # 仅有web-0 受更新影响。
+</code></pre>
+<h1 id="4-删除-StatefulSet"><a href="#4-删除-StatefulSet" class="headerlink" title="4. 删除 StatefulSet"></a>4. 删除 StatefulSet</h1><p><font color="green" size="2">StatefulSet 同时支持级联和非级联删除。使用非级联方式删除 StatefulSet 时，StatefulSet 的 Pod 不会被删除。使用级联删除时，StatefulSet 和它的 Pod 都会被删除。 </font></p>
+<h3 id="4-1-非级联删除"><a href="#4-1-非级联删除" class="headerlink" title="4.1 非级联删除"></a>4.1 非级联删除</h3><p>在一个终端窗口查看 StatefulSet 中的 Pod。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -w -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<p>使用 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/reference/generated/kubectl/kubectl-commands/#delete"><code>kubectl delete</code></a> 删除 StatefulSet。 请确保提供了 <code>--cascade=orphan</code> 参数给命令。这个参数告诉 Kubernetes 只删除 StatefulSet 而不要删除它的任何 Pod。</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">kubectl <span class="hljs-built_in">delete</span> statefulset web <span class="hljs-comment">--cascade=orphan</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">statefulset<span class="hljs-selector-class">.apps</span> <span class="hljs-string">&quot;web&quot;</span> deleted<br><br></code></pre></td></tr></table></figure>
+
+<p>获取 Pod 来检查他们的状态。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">NAME</span>      READY     STATUS    RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">6</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">7</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">5</span>m<br><br></code></pre></td></tr></table></figure>
+
+<p>虽然 <code>web</code> 已经被删除了，但所有 Pod 仍然处于 Running 和 Ready 状态。 删除 <code>web-0</code>。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">kubectl <span class="hljs-keyword">delete</span> pod web<span class="hljs-number">-0</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">pod</span> <span class="hljs-string">&quot;web-0&quot;</span> deleted<br><br></code></pre></td></tr></table></figure>
+
+<p>获取 StatefulSet 的 Pod。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">NAME</span>      READY     STATUS    RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">10</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">7</span>m<br><br></code></pre></td></tr></table></figure>
+
+<p>由于 <code>web</code> StatefulSet 已经被删除，<code>web-0</code>没有被重新启动。</p>
+<p>在一个终端监控 StatefulSet 的 Pod。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -w -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<p>在另一个终端里重新创建 StatefulSet。请注意，除非你删除了 <code>nginx</code> Service （你不应该这样做），你将会看到一个错误，提示 Service 已经存在。</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coq">kubectl <span class="hljs-built_in">apply</span> -f web.yaml<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">statefulset.apps/web created<br><span class="hljs-class"><span class="hljs-keyword">service</span>/<span class="hljs-title">nginx</span> unchanged</span><br><span class="hljs-class"></span><br></code></pre></td></tr></table></figure>
+
+<p>请忽略这个错误。它仅表示 kubernetes 进行了一次创建 nginx Headless Service 的尝试，尽管那个 Service 已经存在。</p>
+<p>在第一个终端中运行并检查 <code>kubectl get</code> 命令的输出。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -w -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">NAME</span>      READY     STATUS    RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">16</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">2</span>m<br><span class="hljs-attribute">NAME</span>      READY     STATUS    RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Pending   <span class="hljs-number">0</span>          <span class="hljs-number">0</span>s<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Pending   <span class="hljs-number">0</span>         <span class="hljs-number">0</span>s<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       ContainerCreating   <span class="hljs-number">0</span>         <span class="hljs-number">0</span>s<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>         <span class="hljs-number">18</span>s<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">3</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">3</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">3</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">2</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">3</span>m<br><br></code></pre></td></tr></table></figure>
+
+<p>当重新创建 <code>web</code> StatefulSet 时，<code>web-0</code> 被第一个重新启动。 由于 <code>web-1</code> 已经处于 Running 和 Ready 状态，当 <code>web-0</code> 变成 Running 和 Ready 时， StatefulSet 会接收这个 Pod。由于你重新创建的 StatefulSet 的 <code>replicas</code> 等于 2， 一旦 <code>web-0</code> 被重新创建并且 <code>web-1</code> 被认为已经处于 Running 和 Ready 状态时，<code>web-2</code> 将会被终止。</p>
+<p>让我们再看看被 Pod 的 web 服务器加载的 <code>index.html</code> 的内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> 0 1; <span class="hljs-keyword">do</span> kubectl <span class="hljs-built_in">exec</span> -i -t <span class="hljs-string">&quot;web-<span class="hljs-variable">$i</span>&quot;</span> -- curl http://localhost/; <span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span><br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span><br><br></code></pre></td></tr></table></figure>
+
+<p>尽管你同时删除了 StatefulSet 和 <code>web-0</code> Pod，但它仍然使用最初写入 <code>index.html</code> 文件的主机名进行服务。 这是因为 StatefulSet 永远不会删除和一个 Pod 相关联的 PersistentVolumes。 当你重建这个 StatefulSet 并且重新启动了 <code>web-0</code> 时，它原本的 PersistentVolume 会被重新挂载。</p>
+<h3 id="4-2-级联删除"><a href="#4-2-级联删除" class="headerlink" title="4.2 级联删除"></a>4.2 级联删除</h3><p>在一个终端窗口观察 StatefulSet 里的 Pod。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -w -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<p>在另一个窗口中再次删除这个 StatefulSet。这次省略 <code>--cascade=orphan</code> 参数。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">kubectl <span class="hljs-keyword">delete</span> statefulset web<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">statefulset<span class="hljs-selector-class">.apps</span> <span class="hljs-string">&quot;web&quot;</span> deleted<br><br></code></pre></td></tr></table></figure>
+
+<p>在第一个终端检查 <code>kubectl get</code> 命令的输出，并等待所有的 Pod 变成 Terminating 状态。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl <span class="hljs-builtin-name">get</span> pods -w -l <span class="hljs-attribute">app</span>=nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">NAME</span>      READY     STATUS    RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">11</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Running   <span class="hljs-number">0</span>          <span class="hljs-number">27</span>m<br><span class="hljs-attribute">NAME</span>      READY     STATUS        RESTARTS   AGE<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>          <span class="hljs-number">12</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">1</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">29</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">12</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">12</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">12</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">29</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">29</span>m<br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span>     <span class="hljs-number">0</span>/<span class="hljs-number">1</span>       Terminating   <span class="hljs-number">0</span>         <span class="hljs-number">29</span>m<br><br></code></pre></td></tr></table></figure>
+
+<p>如同你在<a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tutorials/stateful-application/basic-stateful-set/#ordered-pod-termination">缩容</a>一节看到的，Pod 按照和他们序号索引相反的顺序每次终止一个。 在终止一个 Pod 前，StatefulSet 控制器会等待 Pod 后继者被完全终止。</p>
+<p>请注意，虽然级联删除会删除 StatefulSet 和它的 Pod，但它并不会删除和 StatefulSet 关联的 Headless Service。你必须手动删除<code>nginx</code> Service。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">kubectl <span class="hljs-keyword">delete</span> service nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">service</span> <span class="hljs-string">&quot;nginx&quot;</span> deleted<br><br></code></pre></td></tr></table></figure>
+
+<p>再一次重新创建 StatefulSet 和 Headless Service。</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coq">kubectl <span class="hljs-built_in">apply</span> -f web.yaml<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">service</span>/<span class="hljs-title">nginx</span> created</span><br><span class="hljs-class">statefulset.apps/web created</span><br><span class="hljs-class"></span><br></code></pre></td></tr></table></figure>
+
+<p>当 StatefulSet 所有的 Pod 变成 Running 和 Ready 时，获取它们的 <code>index.html</code> 文件的内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> 0 1; <span class="hljs-keyword">do</span> kubectl <span class="hljs-built_in">exec</span> -i -t <span class="hljs-string">&quot;web-<span class="hljs-variable">$i</span>&quot;</span> -- curl http://localhost/; <span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">web</span>-<span class="hljs-number">0</span><br><span class="hljs-attribute">web</span>-<span class="hljs-number">1</span><br><br></code></pre></td></tr></table></figure>
+
+<p>即使你已经删除了 StatefulSet 和它的全部 Pod，这些 Pod 将会被重新创建并挂载它们的 PersistentVolumes，并且 <code>web-0</code> 和 <code>web-1</code> 将仍然使用它们的主机名提供服务。</p>
+<p>最后删除 <code>nginx</code> service…</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">kubectl <span class="hljs-keyword">delete</span> service nginx<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">service</span> <span class="hljs-string">&quot;nginx&quot;</span> deleted<br><br></code></pre></td></tr></table></figure>
+
+<p>… 并且删除 <code>web</code> StatefulSet:</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">kubectl <span class="hljs-keyword">delete</span> statefulset web<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">statefulset</span> <span class="hljs-string">&quot;web&quot;</span> deleted<br></code></pre></td></tr></table></figure>
+
+<h1 id="Pod管理策略"><a href="#Pod管理策略" class="headerlink" title="Pod管理策略"></a>Pod管理策略</h1><p>OrderedReady Pod 管理策略<br>OrderedReady pod 管理策略是 StatefulSets 的默认选项。它告诉 StatefulSet 控制器遵循上文展示的顺序性保证。</p>
+<p>Parallel Pod 管理策略<br>Parallel pod 管理策略告诉 StatefulSet 控制器并行的终止所有 Pod， 在启动或终止另一个 Pod 前，不必等待这些 Pod 变成 Running 和 Ready 或者完全终止状态。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">ports:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br>  <span class="hljs-attr">clusterIP:</span> <span class="hljs-string">None</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">StatefulSet</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">serviceName:</span> <span class="hljs-string">&quot;nginx&quot;</span><br>  <span class="hljs-comment"># Parallel pod 管理策略告诉 StatefulSet 控制器并行的终止所有 Pod， 在启动或终止另一个 Pod 前，不必等待这些 Pod 变成 Running 和 Ready 或者完全终止状态。</span><br>  <span class="hljs-attr">podManagementPolicy:</span> <span class="hljs-string">&quot;Parallel&quot;</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">2</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">nginx</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">nginx</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">k8s.gcr.io/nginx-slim:0.8</span><br>        <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">80</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br>        <span class="hljs-attr">volumeMounts:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">www</span><br>          <span class="hljs-attr">mountPath:</span> <span class="hljs-string">/usr/share/nginx/html</span><br>  <span class="hljs-attr">volumeClaimTemplates:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">name:</span> <span class="hljs-string">www</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">accessModes:</span> [ <span class="hljs-string">&quot;ReadWriteOnce&quot;</span> ]<br>      <span class="hljs-attr">resources:</span><br>        <span class="hljs-attr">requests:</span><br>          <span class="hljs-attr">storage:</span> <span class="hljs-string">1Gi</span><br><br></code></pre></td></tr></table></figure>
+<h1 id="清理现场"><a href="#清理现场" class="headerlink" title="清理现场"></a>清理现场</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">kubectl delete sts web<br>kubectl delete svc nginx<br><br></code></pre></td></tr></table></figure>
+
+
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'blb6PJsThCi2aLC84uljjQzT-gzGzoHsz',
+      app_key: '1PBJebm7VF0AiFpsf6Hhapdv',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BAStatefulSet"><span class="toc-number">1.</span> <span class="toc-text">1.1 创建StatefulSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-StatefulSet-%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%88%9B%E5%BB%BA%E5%92%8C%E5%88%A0%E9%99%A4%E6%9C%BA%E5%88%B6%E3%80%82"><span class="toc-number">2.</span> <span class="toc-text">1.2 StatefulSet 的顺序创建和删除机制。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E4%BD%BF%E7%94%A8%E7%A8%B3%E5%AE%9A%E7%9A%84%E7%BD%91%E7%BB%9C%E6%A0%87%E8%AF%86%E3%80%82"><span class="toc-number">3.</span> <span class="toc-text">1.3 使用稳定的网络标识。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%86%99%E5%85%A5%E7%A8%B3%E5%AE%9A%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">4.</span> <span class="toc-text">1.4 写入稳定的存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E5%88%9B%E5%BB%BAnfs-%E3%80%90%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1%E5%9C%A8%E6%89%80%E6%9C%89%E7%9A%84master-%E5%8F%8Anode-%E8%8A%82%E7%82%B9%E5%AE%89%E8%A3%85%E3%80%91"><span class="toc-number">4.1.</span> <span class="toc-text">1.4.1 创建nfs 【相关服务在所有的master 及node 节点安装】</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E6%8C%82%E8%BD%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">4.2.</span> <span class="toc-text">1.4.2 挂载测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3-pv-ymal%E6%96%87%E4%BB%B6"><span class="toc-number">4.3.</span> <span class="toc-text">1.4.3 pv ymal文件</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%89%A9%E5%AE%B9-%E7%BC%A9%E5%AE%B9-StatefulSet"><span class="toc-number"></span> <span class="toc-text">2. 扩容&#x2F;缩容  StatefulSet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%9B%B4%E6%96%B0StatefulSet"><span class="toc-number"></span> <span class="toc-text">3.更新StatefulSet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Rolling-Update-%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">3.1 Rolling Update 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%9B%B4%E6%96%B0%EF%BC%8C%E6%94%B9%E5%8F%98%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="toc-number">2.</span> <span class="toc-text">3.2 更新，改变容器镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%88%86%E6%AE%B5%E6%9B%B4%E6%96%B0"><span class="toc-number">3.</span> <span class="toc-text">3.3 分段更新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E6%B5%8B%E8%AF%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.3.1 测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83"><span class="toc-number">4.</span> <span class="toc-text">3.4 灰度发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%88%86%E9%98%B6%E6%AE%B5%E5%8F%91%E5%B8%83"><span class="toc-number">5.</span> <span class="toc-text">3.5 分阶段发布</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%88%A0%E9%99%A4-StatefulSet"><span class="toc-number"></span> <span class="toc-text">4. 删除 StatefulSet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%9D%9E%E7%BA%A7%E8%81%94%E5%88%A0%E9%99%A4"><span class="toc-number">1.</span> <span class="toc-text">4.1 非级联删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%BA%A7%E8%81%94%E5%88%A0%E9%99%A4"><span class="toc-number">2.</span> <span class="toc-text">4.2 级联删除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pod%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-number"></span> <span class="toc-text">Pod管理策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%85%E7%90%86%E7%8E%B0%E5%9C%BA"><span class="toc-number"></span> <span class="toc-text">清理现场</span></a>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&text=PVC in StatefulSet"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&is_video=false&description=PVC in StatefulSet"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PVC in StatefulSet&body=Check out this article: https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&title=PVC in StatefulSet"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&name=PVC in StatefulSet&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/11/15/PVC%20in%20StatefulSet/&t=PVC in StatefulSet"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
