@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Helm">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/11/17/Helm/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/11/17/Helm/20211117110915290.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/11/17/Helm/20211117041822704.png">
+<meta property="article:published_time" content="2021-11-17T02:58:02.000Z">
+<meta property="article:modified_time" content="2021-11-17T02:58:02.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.buhuixiu.com/2021/11/17/Helm/20211117110915290.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Helm</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/11/16/Kubernetes%E9%9B%86%E7%BE%A4%E5%AE%89%E5%85%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/11/17/Helm/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/11/17/Helm/&text=Helm"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/11/17/Helm/&is_video=false&description=Helm"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Helm&body=Check out this article: https://www.buhuixiu.com/2021/11/17/Helm/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/11/17/Helm/&name=Helm&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/11/17/Helm/&t=Helm"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Helm-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">1. Helm 是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Helm-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">2.Helm 相关组件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Helm-%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">3.Helm 原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Helm-%E9%83%A8%E7%BD%B2"><span class="toc-number">4.</span> <span class="toc-text">4.Helm 部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%AE%89%E8%A3%85Helm"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1 安装Helm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2 脚本安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E4%BD%BF%E7%94%A8"><span class="toc-number">4.0.3.</span> <span class="toc-text">4.3 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%AE%89%E8%A3%85%E5%89%8D%E8%87%AA%E5%AE%9A%E4%B9%89chart"><span class="toc-number">4.0.4.</span> <span class="toc-text">4.4 安装前自定义chart</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E2%80%98helm-upgrade%E2%80%99-%E5%92%8C-%E2%80%98helm-rollback%E2%80%99%EF%BC%9A%E5%8D%87%E7%BA%A7-release-%E5%92%8C%E5%A4%B1%E8%B4%A5%E6%97%B6%E6%81%A2%E5%A4%8D"><span class="toc-number">5.</span> <span class="toc-text">5. ‘helm upgrade’ 和 ‘helm rollback’：升级 release 和失败时恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%BD%93%E4%BD%A0%E6%83%B3%E5%8D%87%E7%BA%A7%E5%88%B0-chart-%E7%9A%84%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%8C%E6%88%96%E6%98%AF%E4%BF%AE%E6%94%B9-release-%E7%9A%84%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-helm-upgrade-%E5%91%BD%E4%BB%A4%E3%80%82"><span class="toc-number">5.0.1.</span> <span class="toc-text">5.1 当你想升级到 chart 的新版本，或是修改 release 的配置，你可以使用 helm upgrade 命令。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-helm-%E5%9B%9E%E6%BB%9A"><span class="toc-number">5.0.2.</span> <span class="toc-text">5.2 helm 回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-helm-uninstall-%E5%8D%B8%E8%BD%BD-release"><span class="toc-number">5.0.3.</span> <span class="toc-text">5.3 helm uninstall : 卸载 release</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E2%80%98helm-repo%E2%80%99-%E4%BD%BF%E7%94%A8%E4%BB%93%E5%BA%93"><span class="toc-number">6.</span> <span class="toc-text">6. ‘helm repo’: 使用仓库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E5%88%9B%E5%BB%BA%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84charts"><span class="toc-number">7.</span> <span class="toc-text">7. 创建你自己的charts</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">8.总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Helm
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-11-17T02:58:02.000Z" itemprop="datePublished">2021-11-17</time>
+        
+        (Updated: <time datetime="2021-11-17T02:58:02.000Z" itemprop="dateModified">2021-11-17</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/k8s/" rel="tag">k8s</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p><strong>部分内容转自：  <a target="_blank" rel="noopener" href="https://www.zutuanxue.com/home/4/12_222%EF%BC%8C%E6%8C%89%E7%85%A7%E7%9B%B8%E5%85%B3Helm%E7%89%88%E6%9C%AC%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%86%85%E5%AE%B9%E6%9B%B4%E6%96%B0">https://www.zutuanxue.com/home/4/12_222，按照相关Helm版本进行了内容更新</a></strong><p></p>
+<h1 id="1-Helm-是什么"><a href="#1-Helm-是什么" class="headerlink" title="1. Helm 是什么"></a>1. Helm 是什么</h1><p>&nbsp;&nbsp;&nbsp;​Helm 是官方提供的类似于 YUM 的包管理器，是部署环境的流程封装。Helm 有两个重要的概念：chart 和release。<br>&nbsp;&nbsp;&nbsp; 在没使用 helm 之前，向 kubernetes 部署应用，我们要依次部署 deployment、svc 等，步骤较繁琐。况且随着很多项目微服务化，复杂的应用在容器中部署以及管理显得较为复杂，helm 通过打包的方式，支持发布的版本管理和控制，很大程度上简化了 Kubernetes 应用的部署和管理。</p>
+<h1 id="2-Helm-相关组件"><a href="#2-Helm-相关组件" class="headerlink" title="2.Helm 相关组件"></a>2.Helm 相关组件</h1><p>** 三大概念  **<br>​<strong>helm ：</strong> 是一个命令行工具，用于本地开发及管理chart，chart仓库管理等</p>
+<p><strong>从Helm 2发生的变化,这里会展示一个对Helm3主要引入的变化的详尽列表。<font color="red" size="3">移除了Tiller </font></strong></p>
+<p>​<strong>chart：</strong> 代表着 Helm 包。它包含在 Kubernetes 集群内部运行应用程序，工具或服务所需的所有资源定义。你可以把它看作是 Homebrew formula，Apt dpkg，或 Yum RPM 在Kubernetes 中的等价物<br><strong>Repository（仓库）</strong>  是用来存放和共享 charts 的地方。它就像 Perl 的 CPAN 档案库网络 或是 Fedora 的 软件包仓库，只不过它是供 Kubernetes 包所使用的。<br><strong>release：</strong> 使用 helm install 命令在 Kubernetes 集群中部署的 Chart 称为 Release。以 MySQL chart为例，如果你想在你的集群中运行两个数据库，你可以安装该chart两次。每一个数据库都会拥有它自己的 release 和 release name。</p>
+<h1 id="3-Helm-原理"><a href="#3-Helm-原理" class="headerlink" title="3.Helm 原理"></a>3.Helm 原理</h1><p><a href="/Helm/20211117110915290.png" class="gallery-item"><img src="/2021/11/17/Helm/20211117110915290.png"></a><br><strong>创建 或 删除 release</strong></p>
+<p>​helm 客户端从指定的目录或本地tar文件或远程repo仓库解析出chart的结构信息  </p>
+<p>helm 客户端指定的 chart 结构和 values 信息通过 gRPC 传递给 Tiller<br><strong><font color="green" size="2">Helm 3 中，移除了Tiller ,取而代之的是，我们可以简单地从Kubernetes API server获取信息， 在Chart客户端处理并在Kubernetes中存储安装记录。<br></font></strong><br><font color="green" size="2">随着Tiller的消失，Helm的安全模块从根本上被简化。Helm 3 现在支持所有Kubernetes流行的安全、 身份和授权特性。Helm的权限通过你的 kubeconfig文件进行评估。 集群管理员可以限制用户权限，只要他们觉得合适， 无论什么粒度都可以做到。版本发布记录和Helm的剩余保留功能仍然会被记录在集群中。 </font></p>
+<p>Tiller 服务端根据 chart 和 values 生成一个 release  </p>
+<p>Tiller 将install release请求直接传递给 kube-apiserver  </p>
+<p><strong>更新release</strong></p>
+<p>helm 客户端将需要更新的 chart 的 release 名称 chart 结构和 value 信息传给 Tiller  </p>
+<p>Tiller 将收到的信息生成新的 release，并同时更新这个 release 的 history  </p>
+<p>Tiller 将新的 release 传递给 kube-apiserver 进行更新  </p>
+<h1 id="4-Helm-部署"><a href="#4-Helm-部署" class="headerlink" title="4.Helm 部署"></a>4.Helm 部署</h1><h3 id="4-1-安装Helm"><a href="#4-1-安装Helm" class="headerlink" title="4.1 安装Helm"></a>4.1 安装Helm</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html">1.  下载 [需要的版本](https://github.com/helm/helm/releases)<br>       wget https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz<br>2.  解压(`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)<br>3.  在解压目中找到`helm`程序，移动到需要的目录中(`mv linux-amd64/helm /usr/local/bin/helm`)<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-2-脚本安装"><a href="#4-2-脚本安装" class="headerlink" title="4.2 脚本安装"></a>4.2 脚本安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3</span><br><span class="hljs-meta">$</span><span class="bash"> chmod 700 get_helm.sh</span><br><span class="hljs-meta">$</span><span class="bash"> ./get_helm.sh</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 直接运行</span><br>curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash <br></code></pre></td></tr></table></figure>
+<h3 id="4-3-使用"><a href="#4-3-使用" class="headerlink" title="4.3 使用"></a>4.3 使用</h3><p>helm 的命令类似docker . search 搜索 charts  类似 docker search images .<br>docker run 镜像名：版本<br>helm install release命名 仓库/charts  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> helm install release命名 仓库/charts</span>  <br>helm install happy-panda bitnami/wordpress  <br></code></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs html">Helm按照以下顺序安装资源：<br><br>Namespace<br>NetworkPolicy<br>ResourceQuota<br>LimitRange<br>PodSecurityPolicy<br>PodDisruptionBudget<br>ServiceAccount<br>Secret<br>SecretList<br>ConfigMap<br>StorageClass<br>PersistentVolume<br>PersistentVolumeClaim<br>CustomResourceDefinition<br>ClusterRole<br>ClusterRoleList<br>ClusterRoleBinding<br>ClusterRoleBindingList<br>Role<br>RoleList<br>RoleBinding<br>RoleBindingList<br>Service<br>DaemonSet<br>Pod<br>ReplicationController<br>ReplicaSet<br>Deployment<br>HorizontalPodAutoscaler<br>StatefulSet<br>Job<br>CronJob<br>Ingress<br>APIService<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 你可以使用 helm status 来追踪 release 的状态，或是重新读取配置信息：</span><br><span class="hljs-meta">$</span><span class="bash"> helm status happy-panda</span><br>NAME: happy-panda<br>LAST DEPLOYED: Tue Jan 26 10:27:17 2021<br>NAMESPACE: default<br>STATUS: deployed<br>REVISION: 1<br>NOTES:<br>** Please be patient while the chart is being deployed **<br><br>Your WordPress site can be accessed through the following DNS name from within your cluster:<br><br>    happy-panda-wordpress.default.svc.cluster.local (port 80)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-4-安装前自定义chart"><a href="#4-4-安装前自定义chart" class="headerlink" title="4.4 安装前自定义chart"></a>4.4 安装前自定义chart</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 使用 helm show values 可以查看 chart 中的可配置选项：</span><br><span class="hljs-meta">$</span><span class="bash"> helm show values bitnami/wordpress</span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Global Docker image parameters</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Please, note that this will override the image parameters, including dependencies, configured to use the global value</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Current available global Docker image parameters: imageRegistry and imagePullSecrets</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">#</span></span><br><span class="hljs-meta">#</span><span class="bash"> global:</span><br><span class="hljs-meta">#</span><span class="bash">   imageRegistry: myRegistryName</span><br><span class="hljs-meta">#</span><span class="bash">   imagePullSecrets:</span><br><span class="hljs-meta">#</span><span class="bash">     - myRegistryKeySecretName</span><br><span class="hljs-meta">#</span><span class="bash">   storageClass: myStorageClass</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Bitnami WordPress image version</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># ref: https://hub.docker.com/r/bitnami/wordpress/tags/</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">#</span></span><br>image:<br>  registry: docker.io<br>  repository: bitnami/wordpress<br>  tag: 5.6.0-debian-10-r35<br>  [..]<br><br></code></pre></td></tr></table></figure>
+<p>**  然后，你可以使用 YAML 格式的文件覆盖上述任意配置项，并在安装过程中使用该文件。**</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta"></span><br><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&#123;mariadb.auth.database: user0db, mariadb.auth.username: user0&#125;&#x27;</span> &gt; values.yaml</span><br><span class="hljs-meta">$</span><span class="bash"> helm install -f values.yaml bitnami/wordpress --generate-name</span><br><span class="hljs-meta">#</span><span class="bash"> 上述命令将为 MariaDB 创建一个名称为 user0 的默认用户，并且授予该用户访问新建的 user0db 数据库的权限。chart 中的其他默认配置保持不变。</span><br></code></pre></td></tr></table></figure>
+<p><strong>安装过程中有两种方式传递配置数据：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html">. --values (或 -f)：使用 YAML 文件覆盖配置。可以指定多次，优先使用最右边的文件。<br>. --set：通过命令行的方式对指定项进行覆盖。<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="5-‘helm-upgrade’-和-‘helm-rollback’：升级-release-和失败时恢复"><a href="#5-‘helm-upgrade’-和-‘helm-rollback’：升级-release-和失败时恢复" class="headerlink" title="5. ‘helm upgrade’ 和 ‘helm rollback’：升级 release 和失败时恢复"></a>5. ‘helm upgrade’ 和 ‘helm rollback’：升级 release 和失败时恢复</h1><h3 id="5-1-当你想升级到-chart-的新版本，或是修改-release-的配置，你可以使用-helm-upgrade-命令。"><a href="#5-1-当你想升级到-chart-的新版本，或是修改-release-的配置，你可以使用-helm-upgrade-命令。" class="headerlink" title="5.1 当你想升级到 chart 的新版本，或是修改 release 的配置，你可以使用 helm upgrade 命令。"></a>5.1 当你想升级到 chart 的新版本，或是修改 release 的配置，你可以使用 helm upgrade 命令。</h3><p>&nbsp;&nbsp;&nbsp;一次升级操作会使用已有的 release 并根据你提供的信息对其进行升级。由于 Kubernetes 的 chart 可能会很大而且很复杂，Helm 会尝试执行最小侵入式升级。即它只会更新自上次发布以来发生了更改的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> helm upgrade -f panda.yaml happy-panda bitnami/wordpress</span><br><br></code></pre></td></tr></table></figure>
+<p>我们可以使用 helm get values 命令来看看配置值是否真的生效了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> helm get values happy-panda</span><br>mariadb:<br>  auth:<br>    username: user1<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-helm-回滚"><a href="#5-2-helm-回滚" class="headerlink" title="5.2 helm 回滚"></a>5.2 helm 回滚</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 现在，假如在一次发布过程中，发生了不符合预期的事情，也很容易通过 helm rollback [RELEASE] [REVISION] 命令回滚到之前的发布版本</span><br><span class="hljs-meta">$</span><span class="bash"> helm rollback happy-panda 1</span><br><span class="hljs-meta">#</span><span class="bash">上面这条命令将我们的 happy-panda 回滚到了它最初的版本。release 版本其实是一个增量修订（revision）。 每当发生了一次安装、</span><br><span class="hljs-meta">#</span><span class="bash"> 升级或回滚操作，revision 的值就会加1。第一次 revision 的值永远是1。我们可以使用 helm <span class="hljs-built_in">history</span> [RELEASE] 命令来查看一个</span><br><span class="hljs-meta">#</span><span class="bash"> 特定 release 的修订版本号。</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> helm <span class="hljs-built_in">history</span> [RELEASE] 命令来查看一个特定 release 的修订版本号。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-3-helm-uninstall-卸载-release"><a href="#5-3-helm-uninstall-卸载-release" class="headerlink" title="5.3 helm uninstall : 卸载 release"></a>5.3 helm uninstall : 卸载 release</h3><p>使用 helm uninstall 命令从集群中卸载一个 release：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> helm uninstall happy-panda</span><br></code></pre></td></tr></table></figure>
+
+
+<h1 id="6-‘helm-repo’-使用仓库"><a href="#6-‘helm-repo’-使用仓库" class="headerlink" title="6. ‘helm repo’: 使用仓库"></a>6. ‘helm repo’: 使用仓库</h1><p>Helm 3 不再附带一个默认的 chart 仓库。helm repo 提供了一组命令用于添加、列出和移除仓库。</p>
+<p>使用 helm repo list 来查看配置的仓库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> helm repo list</span><br>NAME            URL<br>stable          https://charts.helm.sh/stable<br>mumoshu         https://mumoshu.github.io/charts<br><br></code></pre></td></tr></table></figure>
+<p>** 使用 helm repo add 来添加新的仓库：**</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> helm repo add dev https://example.com/dev-charts</span><br><br></code></pre></td></tr></table></figure>
+<p>因为 chart 仓库经常在变化，在任何时候你都可以通过执行 helm repo update 命令来确保你的 Helm 客户端是最新的。</p>
+<p>使用 helm repo remove 命令来移除仓库。</p>
+<h1 id="7-创建你自己的charts"><a href="#7-创建你自己的charts" class="headerlink" title="7. 创建你自己的charts"></a>7. 创建你自己的charts</h1><p><a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/topics/charts">chart 开发指南</a> 介绍了如何开发你自己的chart。 但是你也可以通过使用 <code>helm create</code> 命令来快速开始：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>helm create deis-workflow<br>Creating deis-workflow<br><br></code></pre></td></tr></table></figure>
+
+<p>现在，<code>./deis-workflow</code> 目录下已经有一个 chart 了。你可以编辑它并创建你自己的模版。</p>
+<p>在编辑 chart 时，可以通过 <code>helm lint</code> 验证格式是否正确。</p>
+<p>当准备将 chart 打包分发时，你可以运行 <code>helm package</code> 命令：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ada">$ helm <span class="hljs-keyword">package</span> <span class="hljs-title">de</span><span class="hljs-keyword">is</span>-workflow<br>deis-workflow-<span class="hljs-number">0.1</span>.<span class="hljs-number">0</span>.tgz<br><br></code></pre></td></tr></table></figure>
+
+<p>然后这个 chart 就可以很轻松的通过 <code>helm install</code> 命令安装：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">$ helm install deis-workflow <span class="hljs-string">./deis-workflow-0.1.0.tgz</span><br><span class="hljs-string">...</span><br><br></code></pre></td></tr></table></figure>
+
+<p>打包好的 chart 可以上传到 chart 仓库中。查看 <a target="_blank" rel="noopener" href="https://helm.sh/zh/docs/topics/chart_repository">Helm chart 仓库</a>获取更多信息。<br><a href="/Helm/20211117041822704.png" class="gallery-item"><img src="/2021/11/17/Helm/20211117041822704.png"></a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@k8s1 ~]# helm install happy-mynginx bitnami/nginx<br>NAME: happy-mynginx<br>LAST DEPLOYED: Wed Nov 17 02:53:29 2021<br>NAMESPACE: default<br>STATUS: deployed<br>REVISION: 1<br>TEST SUITE: None<br>NOTES:<br>CHART NAME: nginx<br>CHART VERSION: 9.5.13<br>APP VERSION: 1.21.4<br><br>** Please be patient while the chart is being deployed **<br><br>NGINX can be accessed through the following DNS name from within your cluster:<br><br>    happy-mynginx.default.svc.cluster.local (port 80)<br><br>To access NGINX from outside the cluster, follow the steps below:<br><br>1. Get the NGINX URL by running these commands:<br><br>  NOTE: It may take a few minutes for the LoadBalancer IP to be available.<br>        Watch the status with: &#x27;kubectl get svc --namespace default -w happy-mynginx&#x27;<br><br>    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath=&quot;&#123;.spec.ports[0].port&#125;&quot; services happy-mynginx)<br>    export SERVICE_IP=$(kubectl get svc --namespace default happy-mynginx -o jsonpath=&#x27;&#123;.status.loadBalancer.ingress[0].ip&#125;&#x27;)<br>    echo &quot;http://$&#123;SERVICE_IP&#125;:$&#123;SERVICE_PORT&#125;&quot;<br><br><br><br></code></pre></td></tr></table></figure>
+<h1 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h1><p>这一章介绍了 <code>helm</code> 客户端的基本使用方式，包括搜索，安装，升级，和卸载。也涵盖了一些有用的工具类命令，如<code>helm status</code>， <code>helm get</code>，和 <code>helm repo</code>。</p>
+<p>有关这些命令的更多信息，请查看 Helm 的内置帮助命令：<code>helm help</code>。</p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'blb6PJsThCi2aLC84uljjQzT-gzGzoHsz',
+      app_key: '1PBJebm7VF0AiFpsf6Hhapdv',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Helm-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">1. Helm 是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Helm-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">2.Helm 相关组件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Helm-%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">3.Helm 原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Helm-%E9%83%A8%E7%BD%B2"><span class="toc-number">4.</span> <span class="toc-text">4.Helm 部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%AE%89%E8%A3%85Helm"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1 安装Helm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2 脚本安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E4%BD%BF%E7%94%A8"><span class="toc-number">4.0.3.</span> <span class="toc-text">4.3 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%AE%89%E8%A3%85%E5%89%8D%E8%87%AA%E5%AE%9A%E4%B9%89chart"><span class="toc-number">4.0.4.</span> <span class="toc-text">4.4 安装前自定义chart</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E2%80%98helm-upgrade%E2%80%99-%E5%92%8C-%E2%80%98helm-rollback%E2%80%99%EF%BC%9A%E5%8D%87%E7%BA%A7-release-%E5%92%8C%E5%A4%B1%E8%B4%A5%E6%97%B6%E6%81%A2%E5%A4%8D"><span class="toc-number">5.</span> <span class="toc-text">5. ‘helm upgrade’ 和 ‘helm rollback’：升级 release 和失败时恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%BD%93%E4%BD%A0%E6%83%B3%E5%8D%87%E7%BA%A7%E5%88%B0-chart-%E7%9A%84%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%8C%E6%88%96%E6%98%AF%E4%BF%AE%E6%94%B9-release-%E7%9A%84%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-helm-upgrade-%E5%91%BD%E4%BB%A4%E3%80%82"><span class="toc-number">5.0.1.</span> <span class="toc-text">5.1 当你想升级到 chart 的新版本，或是修改 release 的配置，你可以使用 helm upgrade 命令。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-helm-%E5%9B%9E%E6%BB%9A"><span class="toc-number">5.0.2.</span> <span class="toc-text">5.2 helm 回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-helm-uninstall-%E5%8D%B8%E8%BD%BD-release"><span class="toc-number">5.0.3.</span> <span class="toc-text">5.3 helm uninstall : 卸载 release</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E2%80%98helm-repo%E2%80%99-%E4%BD%BF%E7%94%A8%E4%BB%93%E5%BA%93"><span class="toc-number">6.</span> <span class="toc-text">6. ‘helm repo’: 使用仓库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E5%88%9B%E5%BB%BA%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84charts"><span class="toc-number">7.</span> <span class="toc-text">7. 创建你自己的charts</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">8.总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/11/17/Helm/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/11/17/Helm/&text=Helm"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/11/17/Helm/&is_video=false&description=Helm"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Helm&body=Check out this article: https://www.buhuixiu.com/2021/11/17/Helm/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/11/17/Helm/&title=Helm"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/11/17/Helm/&name=Helm&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/11/17/Helm/&t=Helm"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
