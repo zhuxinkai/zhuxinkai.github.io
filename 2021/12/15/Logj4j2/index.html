@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Log4j2 漏洞利用">
+<meta property="og:url" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/">
+<meta property="og:site_name" content="Sampson&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215050238818.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045550456.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045608936.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045744832.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045827093.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045845265.png">
+<meta property="og:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215045857075.png">
+<meta property="article:published_time" content="2021-12-15T08:53:01.000Z">
+<meta property="article:modified_time" content="2021-12-15T08:53:01.000Z">
+<meta property="article:author" content="Sampson.Z">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.buhuixiu.com/2021/12/15/Logj4j2/20211215050238818.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Log4j2 漏洞利用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/12/15/DNSlog%E4%BB%8B%E7%BB%8D/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/12/15/Logj4j2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&text=Log4j2 漏洞利用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&is_video=false&description=Log4j2 漏洞利用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Log4j2 漏洞利用&body=Check out this article: https://www.buhuixiu.com/2021/12/15/Logj4j2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&name=Log4j2 漏洞利用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/12/15/Logj4j2/&t=Log4j2 漏洞利用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%90%AD%E5%BB%BAexploit-class-%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84-web-server-%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%A5%BD%E8%AE%A9ldap%E7%9A%84%E5%8F%8D%E5%B0%84%E8%83%BD%E5%A4%9F%E8%AE%BF%E9%97%AE%E5%88%B0%E7%9B%B8%E5%85%B3%E7%9A%84class%E6%96%87%E4%BB%B6%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">1.2 搭建exploit.class 执行文件的 web server 服务，好让ldap的反射能够访问到相关的class文件。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E8%B5%B7LDAP%E7%9B%91%E5%90%AC"><span class="toc-number">2.</span> <span class="toc-text">1.3 起LDAP监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%8F%91%E9%80%81%E6%94%BB%E5%87%BB%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">1.4 发送攻击数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-%E6%A8%A1%E6%8B%9F%E7%9A%84%E8%A2%AB%E6%94%BB%E5%87%BB%E7%8E%AF%E5%A2%83"><span class="toc-number">4.</span> <span class="toc-text">1.5 模拟的被攻击环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-%E6%94%BB%E5%87%BB%E6%88%90%E5%8A%9F"><span class="toc-number">5.</span> <span class="toc-text">1.6 攻击成功</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Log4j2 漏洞利用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sampson.Z</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-12-15T08:53:01.000Z" itemprop="datePublished">2021-12-15</time>
+        
+        (Updated: <time datetime="2021-12-15T08:53:01.000Z" itemprop="dateModified">2021-12-15</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/java/" rel="tag">java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用<pre><code>大家都说，该漏洞的利用门槛极低。而危害却极高。确实如此！！！但是拦截方式也可以很简单粗暴。在目前WEB防火墙必备的云上环境
+下，企业内部严格执行安全规则其实是最重要和最基础的。最小化规则，严格的纵深防御原则，在核心数据方面采用零信任模型等等，如果能够严格的执行，比投入再
+多的安全产品，软硬件，saas安全服务，请再多的安全顾问专家都要有效。
+就在刚爆出这个漏洞的前1天，运维工程师新建了一条16位掩码的 全内网打通的安全组规则到一个用来远程的全局安全组。我也是很无语。
+
+该漏洞与fastjson的利用方式比较类似。或许，阿里的安全团队成员也是从fastjson 相关漏洞中得到的灵感吧。
+另外，好多安全博客上面关于这个漏洞POC验证图片都一摸一样，从IDEA配色到命令方式，但是LOGO却打的不同，我也是奇怪，这些大佬是不是靠PS混生活的。
+</code></pre>
+<p><a href="/Logj4j2/20211215050238818.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215050238818.png"></a><br><a href="/Logj4j2/20211215045550456.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045550456.png"></a></p>
+<h2 id="1-2-搭建exploit-class-执行文件的-web-server-服务，好让ldap的反射能够访问到相关的class文件。"><a href="#1-2-搭建exploit-class-执行文件的-web-server-服务，好让ldap的反射能够访问到相关的class文件。" class="headerlink" title="1.2 搭建exploit.class 执行文件的 web server 服务，好让ldap的反射能够访问到相关的class文件。"></a>1.2 搭建exploit.class 执行文件的 web server 服务，好让ldap的反射能够访问到相关的class文件。</h2><p><a href="/Logj4j2/20211215045608936.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045608936.png"></a></p>
+<h2 id="1-3-起LDAP监听"><a href="#1-3-起LDAP监听" class="headerlink" title="1.3 起LDAP监听"></a>1.3 起LDAP监听</h2><p><a href="/Logj4j2/20211215045744832.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045744832.png"></a></p>
+<h2 id="1-4-发送攻击数据包"><a href="#1-4-发送攻击数据包" class="headerlink" title="1.4 发送攻击数据包"></a>1.4 发送攻击数据包</h2><p><a href="/Logj4j2/20211215045827093.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045827093.png"></a></p>
+<h2 id="1-5-模拟的被攻击环境"><a href="#1-5-模拟的被攻击环境" class="headerlink" title="1.5 模拟的被攻击环境"></a>1.5 模拟的被攻击环境</h2><p><a href="/Logj4j2/20211215045845265.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045845265.png"></a></p>
+<h2 id="1-6-攻击成功"><a href="#1-6-攻击成功" class="headerlink" title="1.6 攻击成功"></a>1.6 攻击成功</h2><p><a href="/Logj4j2/20211215045857075.png" class="gallery-item"><img src="/2021/12/15/Logj4j2/20211215045857075.png"></a></p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+		<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+		<!--<script src="//cdn.jsdelivr.net/npm/leancloud-storage@latest/dist/av-min.js"></script>
+    <script src='//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js'></script>-->
+	<div id="vcomments"></div>
+	<script>
+		var notify = false == true ? true : false;
+		var verify = false == true ? true : false;
+		var visitor = true == true ? true : false;
+  new Valine({
+      el: '#vcomments',
+				notify: notify,
+				verify: verify,
+    	app_id: 'blb6PJsThCi2aLC84uljjQzT-gzGzoHsz',
+      app_key: '1PBJebm7VF0AiFpsf6Hhapdv',
+			lang: 'en',
+			placeholder: 'ヾﾉ≧∀≦)o快来评论一下吧!',
+			avatar: 'monsterid',
+			pageSize: 10,
+			visitor: visitor
+        });
+    </script>
+
+
+
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%90%AD%E5%BB%BAexploit-class-%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84-web-server-%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%A5%BD%E8%AE%A9ldap%E7%9A%84%E5%8F%8D%E5%B0%84%E8%83%BD%E5%A4%9F%E8%AE%BF%E9%97%AE%E5%88%B0%E7%9B%B8%E5%85%B3%E7%9A%84class%E6%96%87%E4%BB%B6%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">1.2 搭建exploit.class 执行文件的 web server 服务，好让ldap的反射能够访问到相关的class文件。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E8%B5%B7LDAP%E7%9B%91%E5%90%AC"><span class="toc-number">2.</span> <span class="toc-text">1.3 起LDAP监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%8F%91%E9%80%81%E6%94%BB%E5%87%BB%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">1.4 发送攻击数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-%E6%A8%A1%E6%8B%9F%E7%9A%84%E8%A2%AB%E6%94%BB%E5%87%BB%E7%8E%AF%E5%A2%83"><span class="toc-number">4.</span> <span class="toc-text">1.5 模拟的被攻击环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-%E6%94%BB%E5%87%BB%E6%88%90%E5%8A%9F"><span class="toc-number">5.</span> <span class="toc-text">1.6 攻击成功</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://www.buhuixiu.com/2021/12/15/Logj4j2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&text=Log4j2 漏洞利用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&is_video=false&description=Log4j2 漏洞利用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Log4j2 漏洞利用&body=Check out this article: https://www.buhuixiu.com/2021/12/15/Logj4j2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&title=Log4j2 漏洞利用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://www.buhuixiu.com/2021/12/15/Logj4j2/&name=Log4j2 漏洞利用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://www.buhuixiu.com/2021/12/15/Logj4j2/&t=Log4j2 漏洞利用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-right">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Sampson.Z
+<img src="https://www.buhuixiu.com/images/jgawb.png">
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">粤ICP备19066509号</a>
+
+  
+  
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/zhuxinkai.site/">zhuxinkai.site</a></li>
+        
+      </ul>
+    </nav>
+  
+
+
+
+        <!-- 不蒜子统计 -->
+        <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span class="post-meta-divider">|</span>
+        <span id="busuanzi_container_site_uv" style='display:none'>
+                本站访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+</div>
+
+
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
