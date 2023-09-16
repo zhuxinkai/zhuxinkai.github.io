@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>20230916daily</title>
+      <link href="/2023/09/16/20230916daily/"/>
+      <url>/2023/09/16/20230916daily/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p>Peple like me need to talk to others . <p></p></div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {        var options = {            selector: '.gallery-item'        };        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);        }</script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Log4j2 漏洞利用</title>
       <link href="/2021/12/15/Logj4j2/"/>
       <url>/2021/12/15/Logj4j2/</url>
